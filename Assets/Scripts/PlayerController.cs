@@ -25,6 +25,8 @@ public class PlayerController : MonoBehaviour
 
         if (hInput != 0 || vInput != 0)
         {
+            animator.SetFloat("xInput", hInput);
+            animator.SetFloat("yInput", vInput);
             animator.Play("Run");
         }
         if (hInput == 0 && vInput == 0)

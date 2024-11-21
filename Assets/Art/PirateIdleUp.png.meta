@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: f83f435d5d786f24f9ef51b91eb23f5f
+guid: 4140908aa369aef4c9f04824a64097ca
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -97,7 +97,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: PirateRun_0
+      name: PirateIdleUp_0
       rect:
         serializedVersion: 2
         x: 0
@@ -111,14 +111,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e8f2cce2096e8dc4f92dc994670d961c
-      internalID: -1886656053
+      spriteID: 8e599861442edff4b9c21db993e40c81
+      internalID: -942120350
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PirateRun_1
+      name: PirateIdleUp_1
       rect:
         serializedVersion: 2
         x: 32
@@ -132,14 +132,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e023b5e3c7e4a3c4ba605f0b7e3b4b20
-      internalID: -1200633166
+      spriteID: f5cfe83f124de7742bebd5fd85c2fd58
+      internalID: -1742869696
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PirateRun_2
+      name: PirateIdleUp_2
       rect:
         serializedVersion: 2
         x: 64
@@ -153,14 +153,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 612fa39f30c243745bf4b50908d52eca
-      internalID: -1623989924
+      spriteID: 572278910ec77bc48b2cc6ed9e229f83
+      internalID: -199127224
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PirateRun_3
+      name: PirateIdleUp_3
       rect:
         serializedVersion: 2
         x: 96
@@ -174,14 +174,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1c9d386eee0b71949b8abec6eed95c1c
-      internalID: 1483643528
+      spriteID: b26df313c7fe39843af98d6730f7adcc
+      internalID: -861714041
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PirateRun_4
+      name: PirateIdleUp_4
       rect:
         serializedVersion: 2
         x: 128
@@ -195,14 +195,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: abed6c51c998b364ead0ad33925186b7
-      internalID: 1286731633
+      spriteID: f1bff43182415894dbeafd19f1f89197
+      internalID: 838524869
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PirateRun_5
+      name: PirateIdleUp_5
       rect:
         serializedVersion: 2
         x: 160
@@ -216,50 +216,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 018f1bc40194c0d4ba3acb9021042447
-      internalID: -1803653379
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PirateRun_6
-      rect:
-        serializedVersion: 2
-        x: 192
-        y: 0
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: bae8b0b1aad2a1a4b9401601589f4723
-      internalID: -887674985
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PirateRun_7
-      rect:
-        serializedVersion: 2
-        x: 224
-        y: 0
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 113d67ec3dc70d541a483214d13442f0
-      internalID: -801352650
+      spriteID: 62b6acd0c2d9e0a41a4252e530b95264
+      internalID: 832453052
       vertices: []
       indices: 
       edges: []
@@ -275,14 +233,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      PirateRun_0: -1886656053
-      PirateRun_1: -1200633166
-      PirateRun_2: -1623989924
-      PirateRun_3: 1483643528
-      PirateRun_4: 1286731633
-      PirateRun_5: -1803653379
-      PirateRun_6: -887674985
-      PirateRun_7: -801352650
+      PirateIdleUp_0: -942120350
+      PirateIdleUp_1: -1742869696
+      PirateIdleUp_2: -199127224
+      PirateIdleUp_3: -861714041
+      PirateIdleUp_4: 838524869
+      PirateIdleUp_5: 832453052
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
