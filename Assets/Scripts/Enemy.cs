@@ -1,12 +1,8 @@
 using Pathfinding;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
-    private AIDestinationSetter aiDestSet;
 
     public enum EnemyState
     {
@@ -16,6 +12,11 @@ public class Enemy : MonoBehaviour
     }
 
     private EnemyState currentState;
+
+    [Header("Stat Settings")]
+    public int maxHealth = 100;
+    public int damage = 20;
+    private int health;
 
     [Header("Patrolling Settings")]
     private Vector2 patrolAreaCenter; 
@@ -33,25 +34,48 @@ public class Enemy : MonoBehaviour
     private Vector3 lastKnownPosition;
     private float searchTimer;
 
-    [Header("Vision Settings")]
-    public LayerMask obstacleLayer; 
+    [Header("Hit Settings")]
+    [SerializeField] private float knockbackForce = 5f;
+    [SerializeField] private float knockbackDuration = 0.5f;
+    [SerializeField] private Color flashColor = Color.white;
+    [SerializeField] private float freezeDuration = 0.1f;
+    [SerializeField] private float screenShakeIntensity = 0.2f;
+    [SerializeField] private float screenShakeDuration = 0.2f;
+    private bool isKnockedBack = false;
+    private Color originalColor;
 
-    private AILerp aiLerp; 
+    [Header("Vision Settings")]
+    public LayerMask obstacleLayer;
+
+    private Rigidbody2D rb;
+    private HealthSystem healthSystem;
+    public SpriteRenderer spriteRenderer;
+    private ScreenEffects screenEffects;
+    private AIDestinationSetter aiDestSet;
+    private AILerp aiLerp;
 
     void Start()
     {
+        screenEffects = FindObjectOfType<ScreenEffects>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        rb = GetComponent<Rigidbody2D>();
         aiDestSet = GetComponent<AIDestinationSetter>();
         aiLerp = GetComponent<AILerp>();
 
         patrolAreaCenter = transform.position; 
         currentState = EnemyState.Patrolling;
 
-        aiLerp.speed = patrolSpeed; 
+        aiLerp.speed = patrolSpeed;
         SetRandomPatrolPoint();
+
+        health = maxHealth;
+        healthSystem = new HealthSystem(health);
+        originalColor = spriteRenderer.color;
     }
 
     void Update()
     {
+
         switch (currentState)
         {
             case EnemyState.Patrolling:
@@ -154,6 +178,22 @@ public class Enemy : MonoBehaviour
                     SetRandomPatrolPoint(); 
                 }
                 break;
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            PlayerController player = collision.gameObject.GetComponent<PlayerController>();
+
+            if (player != null && isKnockedBack == false)
+            {
+                //Apply damage
+                healthSystem.TakeDamage(player.damage);
+                health = healthSystem.health;
+                Debug.Log("Enemy Health: " + health);
+            }
         }
     }
 
