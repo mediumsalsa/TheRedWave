@@ -1,5 +1,8 @@
 using Pathfinding;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Enemy : MonoBehaviour
 {
@@ -39,8 +42,6 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float knockbackDuration = 0.5f;
     [SerializeField] private Color flashColor = Color.white;
     [SerializeField] private float freezeDuration = 0.1f;
-    [SerializeField] private float screenShakeIntensity = 0.2f;
-    [SerializeField] private float screenShakeDuration = 0.2f;
     private bool isKnockedBack = false;
     private Color originalColor;
 
@@ -75,6 +76,10 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
+        if (health <= 0)
+        {
+            Destroy(gameObject);
+        }
 
         switch (currentState)
         {
@@ -193,8 +198,52 @@ public class Enemy : MonoBehaviour
                 healthSystem.TakeDamage(player.damage);
                 health = healthSystem.health;
                 Debug.Log("Enemy Health: " + health);
+                StartCoroutine(HitFlash());
+                Debug.Log("Before Hit Effects");
+                StartCoroutine(HitEffects(collision.transform.position));
             }
         }
+    }
+
+    private IEnumerator HitEffects(Vector3 enemyPosition)
+    {
+        // Flash effect
+        StartCoroutine(HitFlash());
+
+        //Apply knockback
+        Vector2 knockbackDirection = (transform.position - enemyPosition).normalized;
+        StartCoroutine(ApplyKnockback(knockbackDirection));
+
+        Debug.Log("After Knockback");
+
+        yield return null;
+    }
+
+    private IEnumerator HitFlash()
+    {
+        spriteRenderer.color = flashColor;
+        yield return new WaitForSeconds(0.1f);
+        spriteRenderer.color = originalColor;
+    }
+
+    private IEnumerator ApplyKnockback(Vector2 direction)
+    {
+        isKnockedBack = true;
+        aiLerp.enabled = false;
+        aiDestSet.enabled = false; // Temporarily disable AI movement
+
+        float timer = 0f;
+
+        while (timer < knockbackDuration)
+        {
+            rb.MovePosition(rb.position + direction * knockbackForce * Time.fixedDeltaTime);
+            timer += Time.fixedDeltaTime;
+            yield return new WaitForFixedUpdate();
+        }
+
+        aiLerp.enabled = true; // Re-enable AI movement
+        aiDestSet.enabled = true;
+        isKnockedBack = false;
     }
 
 }

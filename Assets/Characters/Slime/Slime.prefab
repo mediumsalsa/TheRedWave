@@ -262,15 +262,14 @@ MonoBehaviour:
   chasingSpeed: 0.5
   searchDuration: 6
   searchWanderRadius: 0.5
-  obstacleLayer:
-    serializedVersion: 2
-    m_Bits: 64
   knockbackForce: 2
   knockbackDuration: 0.1
   flashColor: {r: 1, g: 0, b: 0, a: 1}
-  freezeDuration: 0.1
-  screenShakeIntensity: 12
-  screenShakeDuration: 12
+  freezeDuration: 0
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  spriteRenderer: {fileID: 6403513699655981259}
 --- !u!50 &6859659653264665429
 Rigidbody2D:
   serializedVersion: 4

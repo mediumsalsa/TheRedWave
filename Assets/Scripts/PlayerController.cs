@@ -16,8 +16,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float knockbackDuration = 0.5f;
     [SerializeField] private Color flashColor = Color.white;
     [SerializeField] private float freezeDuration = 0.1f;
-    [SerializeField] private float screenShakeIntensity = 0.2f;
-    [SerializeField] private float screenShakeDuration = 0.2f;
     private bool isKnockedBack = false;
     private Color originalColor;
 
