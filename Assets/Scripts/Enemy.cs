@@ -57,6 +57,9 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
+        healthSystem = GetComponent<HealthSystem>();
+        if (healthSystem == null) Debug.Log("HealthSystem object not found!");
+
         screenEffects = FindObjectOfType<ScreenEffects>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
@@ -69,13 +72,14 @@ public class Enemy : MonoBehaviour
         aiLerp.speed = patrolSpeed;
         SetRandomPatrolPoint();
 
+        isKnockedBack = false;
         health = maxHealth;
-        healthSystem = new HealthSystem(health);
         originalColor = spriteRenderer.color;
     }
 
     void Update()
     {
+        health = healthSystem.health;
         if (health <= 0)
         {
             Destroy(gameObject);
@@ -186,22 +190,25 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            PlayerController player = collision.gameObject.GetComponent<PlayerController>();
 
-            if (player != null && isKnockedBack == false)
-            {
-                //Apply damage
-                healthSystem.TakeDamage(player.damage);
-                health = healthSystem.health;
-                Debug.Log("Enemy Health: " + health);
-                StartCoroutine(HitFlash());
-                Debug.Log("Before Hit Effects");
-                StartCoroutine(HitEffects(collision.transform.position));
-            }
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (!other.gameObject.CompareTag("Hit"))
+            return;
+
+        // Ensure the hitbox is not part of this object (self-hit protection)
+        if (other.transform.IsChildOf(transform))
+            return;
+
+        // Get the attacker's stats if applicable
+        EntityStats attackerStats = other.GetComponent<EntityStats>();
+        if (attackerStats != null && !isKnockedBack)
+        {
+            Debug.Log($"{gameObject.name } had a collision Detected with {other.name}, Tag: {other.tag}, IsChild: {other.transform.IsChildOf(transform)}");
+            // Apply damage
+            healthSystem.TakeDamage(attackerStats.gameObject);
+            StartCoroutine(HitFlash());
+            StartCoroutine(HitEffects(other.transform.position));
         }
     }
 
@@ -211,11 +218,9 @@ public class Enemy : MonoBehaviour
         StartCoroutine(HitFlash());
 
         //Apply knockback
+        screenEffects.FreezeFrame();
         Vector2 knockbackDirection = (transform.position - enemyPosition).normalized;
         StartCoroutine(ApplyKnockback(knockbackDirection));
-
-        Debug.Log("After Knockback");
-
         yield return null;
     }
 
@@ -229,11 +234,13 @@ public class Enemy : MonoBehaviour
     private IEnumerator ApplyKnockback(Vector2 direction)
     {
         isKnockedBack = true;
-        aiLerp.enabled = false;
-        aiDestSet.enabled = false; // Temporarily disable AI movement
+
+        // Temporarily disable AILerp movement
+        AILerp aiLerp = GetComponent<AILerp>();
+        if (aiLerp != null)
+            aiLerp.enabled = false;
 
         float timer = 0f;
-
         while (timer < knockbackDuration)
         {
             rb.MovePosition(rb.position + direction * knockbackForce * Time.fixedDeltaTime);
@@ -241,8 +248,9 @@ public class Enemy : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
 
-        aiLerp.enabled = true; // Re-enable AI movement
-        aiDestSet.enabled = true;
+        if (aiLerp != null)
+            aiLerp.enabled = true;
+
         isKnockedBack = false;
     }
 

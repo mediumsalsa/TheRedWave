@@ -18,9 +18,11 @@ GameObject:
   - component: {fileID: 5173489423206376376}
   - component: {fileID: 7645397812301950058}
   - component: {fileID: 6859659653264665429}
+  - component: {fileID: 3022996933601353888}
+  - component: {fileID: 3627136416673065910}
   m_Layer: 7
   m_Name: Slime
-  m_TagString: Enemy
+  m_TagString: Hit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -235,7 +237,7 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: -0.0053201914, y: -0.0154412985}
@@ -262,10 +264,10 @@ MonoBehaviour:
   chasingSpeed: 0.5
   searchDuration: 6
   searchWanderRadius: 0.5
-  knockbackForce: 2
+  knockbackForce: 4
   knockbackDuration: 0.1
   flashColor: {r: 1, g: 0, b: 0, a: 1}
-  freezeDuration: 0
+  freezeDuration: 0.1
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -297,3 +299,28 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &3022996933601353888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5370632033724165702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2e58c93ae09d7744bc6d872788fa7dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 20
+--- !u!114 &3627136416673065910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5370632033724165702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c152e5d1f27fa4648ad55bf4033b2fcf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

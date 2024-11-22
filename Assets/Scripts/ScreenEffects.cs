@@ -37,7 +37,7 @@ public class ScreenEffects : MonoBehaviour
             float shakeDuration = duration > 0 ? duration : defaultShakeDuration;
             float shakeIntensity = intensity > 0 ? intensity : defaultShakeIntensity;
 
-            Debug.Log($"ScreenShake triggered with duration: {shakeDuration}, intensity: {shakeIntensity}");
+            //Debug.Log($"ScreenShake triggered with duration: {shakeDuration}, intensity: {shakeIntensity}");
             StartCoroutine(Shake(shakeDuration, shakeIntensity));
         }
         else
@@ -76,7 +76,7 @@ public class ScreenEffects : MonoBehaviour
 
     private IEnumerator Freeze(float duration)
     {
-        Debug.Log($"FreezeFrame triggered for duration: {duration}");
+        //Debug.Log($"FreezeFrame triggered for duration: {duration}");
         float originalTimeScale = Time.timeScale;
         Time.timeScale = 0f; // Pause the game
         yield return new WaitForSecondsRealtime(duration); // Use unscaled time

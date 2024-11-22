@@ -19,6 +19,11 @@ public class PlayerController : MonoBehaviour
     private bool isKnockedBack = false;
     private Color originalColor;
 
+    [Header("Attack Hitbox")]
+    [SerializeField] private GameObject forwardHitbox;
+    [SerializeField] private GameObject upHitbox;
+    [SerializeField] private GameObject downHitbox;
+
     private Rigidbody2D rb;
     private Animator animator;
     private HealthSystem healthSystem;
@@ -30,6 +35,11 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        Time.timeScale = 1f;
+
+        healthSystem = GetComponent<HealthSystem>();
+        if (healthSystem == null) Debug.Log("HealthSystem object not found!");
+
         rb = GetComponent<Rigidbody2D>();
         if (rb == null) Debug.LogError("Rigidbody2D component is missing!");
 
@@ -44,19 +54,29 @@ public class PlayerController : MonoBehaviour
         }
 
         health = maxHealth;
-        healthSystem = new HealthSystem(health);
         originalColor = spriteRenderer.color;
 
         screenEffects = FindObjectOfType<ScreenEffects>();
-        if (screenEffects == null)
+
+        if (forwardHitbox != null)
         {
-            Debug.LogError("ScreenEffects script not found in the scene!");
+            forwardHitbox.SetActive(false);
+        }
+        if (upHitbox != null)
+        {
+            upHitbox.SetActive(false);
+        }
+
+        if (downHitbox != null)
+        {
+            downHitbox.SetActive(false);
         }
     }
 
 
     void Update()
     {
+        health = healthSystem.health;
         if (health <= 0)
         {
             ResetLevel();
@@ -135,34 +155,67 @@ public class PlayerController : MonoBehaviour
             transform.localScale = new Vector3(1, 1, 1); // Face right
         }
 
+        // Activate the appropriate hitbox
+        if (Mathf.Abs(xDir) > Mathf.Abs(yDir))
+        {
+            // Forward attack
+            ActivateHitbox(forwardHitbox);
+        }
+        else if (yDir > 0)
+        {
+            // Upward attack
+            ActivateHitbox(upHitbox);
+        }
+        else
+        {
+            // Downward attack
+            ActivateHitbox(downHitbox);
+        }
+
         // Trigger attack animation
         animator.Play("Attack");
     }
 
-    public void OnAttackAnimationEnd()
+    private void ActivateHitbox(GameObject hitbox)
     {
-        isAttacking = false; 
+        // Disable all hitboxes first
+        if (forwardHitbox != null) forwardHitbox.SetActive(false);
+        if (upHitbox != null) upHitbox.SetActive(false);
+        if (downHitbox != null) downHitbox.SetActive(false);
+
+        // Enable the specified hitbox
+        if (hitbox != null) hitbox.SetActive(true);
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    public void OnAttackAnimationEnd()
     {
-        if (collision.gameObject.CompareTag("Enemy"))
+        isAttacking = false;
+
+        // Disable all hitboxes
+        if (forwardHitbox != null) forwardHitbox.SetActive(false);
+        if (upHitbox != null) upHitbox.SetActive(false);
+        if (downHitbox != null) downHitbox.SetActive(false);
+    }
+
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (!other.gameObject.CompareTag("Hit"))
+            return;
+
+        // Ensure the hitbox is not part of this object (self-hit protection)
+        if (other.transform.IsChildOf(transform))
+            return;
+
+        // Get the attacker's stats if applicable
+        EntityStats attackerStats = other.GetComponent<EntityStats>();
+        if (attackerStats != null && !isKnockedBack)
         {
-            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
-
-            if (enemy != null && isKnockedBack == false)
-            {
-                //Apply damage
-                healthSystem.TakeDamage(enemy.damage);
-                health = healthSystem.health;
-                Debug.Log("Health: " + health);
-
-                //Start hit flash
-                StartCoroutine(HitFlash());
-
-                //Trigger hit effects
-                StartCoroutine(HitEffects(collision.transform.position));
-            }
+            Debug.Log($"{gameObject.name} had a collision Detected with {other.name}, Tag: {other.tag}, IsChild: {other.transform.IsChildOf(transform)}");
+            // Apply damage
+            healthSystem.TakeDamage(attackerStats.gameObject);
+            StartCoroutine(HitFlash());
+            StartCoroutine(HitEffects(other.transform.position));
         }
     }
 
