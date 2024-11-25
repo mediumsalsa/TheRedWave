@@ -76,10 +76,13 @@ public class ScreenEffects : MonoBehaviour
 
     private IEnumerator Freeze(float duration)
     {
-        //Debug.Log($"FreezeFrame triggered for duration: {duration}");
-        float originalTimeScale = Time.timeScale;
-        Time.timeScale = 0f; // Pause the game
-        yield return new WaitForSecondsRealtime(duration); // Use unscaled time
-        Time.timeScale = originalTimeScale; // Restore time scale
+        if (Time.timeScale != 0)
+        {
+            //Debug.Log($"FreezeFrame triggered for duration: {duration}");
+            float originalTimeScale = Time.timeScale;
+            Time.timeScale = 0f; // Pause the game
+            yield return new WaitForSecondsRealtime(duration); // Use unscaled time
+            Time.timeScale = originalTimeScale; // Restore time scale
+        }
     }
 }
