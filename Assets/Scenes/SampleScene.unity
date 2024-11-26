@@ -340,7 +340,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 26d1e000306639d4a830534e5bb0c9f9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -360,7 +360,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: eefa8490d6aa44e48807ea5ce62c05bb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -661,10 +661,10 @@ MonoBehaviour:
   maxHealth: 200
   damage: 20
   patrolAreaRadius: 0.6
-  patrolSpeed: 0.2
+  patrolSpeed: 0.3
   player: {fileID: 345482723}
   detectionRange: 1
-  chasingSpeed: 0.6
+  chasingSpeed: 0.5
   searchDuration: 10
   searchWanderRadius: 0.6
   knockbackForce: 4
@@ -703,7 +703,7 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: -0.004190013, y: 0.0041899383}
@@ -724,10 +724,10 @@ MonoBehaviour:
   version: 1
   smoothType: 0
   subdivisions: 2
-  iterations: 2
-  strength: 0.5
+  iterations: 0
+  strength: 0
   uniformLength: 1
-  maxSegmentLength: 2
+  maxSegmentLength: 0.4
   bezierTangentLength: 0.4
   offset: 0.2
   factor: 0.1
@@ -773,7 +773,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   version: 1
-  target: {fileID: 345482723}
+  target: {fileID: 0}
 --- !u!114 &569585115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -798,8 +798,8 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 4294967295
     useGraphRaycasting: 0
-  traversableTags: -1
-  tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  traversableTags: -3
+  tagPenalties: 0000000002000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   graphMask:
     value: -1
 --- !u!95 &569585116
@@ -843,7 +843,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 26d1e000306639d4a830534e5bb0c9f9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -864,7 +864,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 631899776, guid: b795e16dcb8d732469f563403e4b115b, type: 3}
+  m_Sprite: {fileID: 826650940, guid: 30085ae6fa465e8429a79195fa07dab0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1093,8 +1093,8 @@ Transform:
   m_GameObject: {fileID: 827358885}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.194, y: -0.02, z: 0}
-  m_LocalScale: {x: 0.17894624, y: 0.2768324, z: 0.25}
+  m_LocalPosition: {x: 0.1652, y: -0.0256, z: 0}
+  m_LocalScale: {x: 0.23647745, y: 0.2368563, z: 0.25}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 345482723}
@@ -1279,8 +1279,8 @@ Transform:
   m_GameObject: {fileID: 1155863471}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -0.006, y: -0.224, z: 0}
-  m_LocalScale: {x: 0.17894624, y: 0.2768324, z: 0.25}
+  m_LocalPosition: {x: -0.0068, y: -0.1816, z: 0}
+  m_LocalScale: {x: 0.2636594, y: 0.25605845, z: 0.25}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 345482723}
@@ -40601,7 +40601,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   version: 1
   data:
-    dataString: UEsDBBQAAAgIAACgn+tflg3xbwIAAC4FAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQF1VE1z2jAQ/SuMziVjHEJDbykQ0kMSJrSTiy9CWmMNsuTRBx/J8N+7km3s0CkX5Lf7dt8+rf1JhLIVMKfN0gj+rDmQHwPywPdUMeDk26BLeIIj3Wq1Fh/Q5r0L7oqQRGPOG3VCIz4KNKtLcEawB7WVITlB0CuRa1Mu+BZm2jqLcE6lBQwZ7QJbIfQ5IEf8G04D5YSn9Hs4feBpmgzOeGSgHJguNb2Z3ifpbZqOF8PkvmG1nJriFZO0rIAH/R1zenM3Db+G0z5GisIpm+zkZjQJfbWUwjYqiTtV0YU3egoecEFx4igrGFCA2BYuiOsTX/PcgmvUGXqaC4PG1RXJT127WVK7qyXuqfShx2QcFdU1n/8JD0cxnBtdPrVtR0lo4QrBdiiQUet6bvfh+VfdXh2o3NGNhPcC1IteGu0Vx6AzPlC9hXTePV4mmxXAdh1eS70CfdU5n1xdU5jhHIc/zqQoN9H1cQ2spY5Wx40Ag/fyCwXHfbFNCUSDij8WftNtf7GawKMw1mGomVIFeRvtTUgli+hZmMa7mTYKTL9CBYpKd1phHXd9hVex/7MeaXiHmu5NrH01rigR7vKT5Cq00ofLbdlCH57BFq/eSaGgszoEXtComVaq3rD+SC1t7U1OWY+29YJ/3S2SA9vQMd1QdpfT6YgPE5aiqPR2Mk7T0eSekrh8QuGcVK5qoY09eG2qK65w0ULF8KkZLA2t4rZzQw9L8VFq22UKles1MwDqta5wEQ4Gm+BLyRdcoEFrcE6oeOHkMyNSsx3w7FIoi5Mujs7QrKuSkUrstQtIRmbxW5KRAF+WeWVgL+AQmrfFzuT8F1BLAwQUAAAICAAAoJ/rtWBAJG0AAAB4AAAACQAkAG1ldGEuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAatWKkstKs7Mz1OyUjDRM9IzNNdRUEovSizIKAaKGII4pZkpIHa0UlpqclKiSWJSYrJpWqKlYYquQbKRoYGBkbGZiZGRoZlFolIsUH1JZUGqX2JuKkRPQGJJRlpmXkpmXrqee1FmijvIaKXYWgBQSwECLQAUAAAICAAAoJ/rX5YN8W8CAAAuBQAACwAkAAAAAAAAAAAAAAAAAAAAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFQSwECLQAUAAAICAAAoJ/rtWBAJG0AAAB4AAAACQAkAAAAAAAAAAAAAAC8AgAAbWV0YS5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0BUEsFBgAAAAACAAIAuAAAAHQDAAAAAA==
+    dataString: UEsDBBQAAAgIAACgn+vLNRicaQIAACoFAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQF1VE1z2jAQ/SuMzoUxDqGhtxYI6SEJE9LJxRchrbEGWfLoI0Ay/PeuZBs7dMoF+e2+3bdPa38SoWwFzGmzMoI/ag7kx4CEM/k26IIPcKQ7rTbiA9qcN8FdEZJozHmhTmjEx4FmdQnOCPZT7WRIThD0SuTalEu+g7m2ziKcU2kBQ0a7wFYIfQ7IEf+Gs0A54Sn9Hk4feJolgzMeGSgHpktNR7O7JL1J08lymNw1rJZTU7xikpYV8KC/Y85Gt7PwazjtY6QonLLJTkbjaeirpRS2UUncqYouvNBT8IALihNHWcGAAsSucEFcn/ic5xZco87Q00IYNK6uSH7p2s2S2n0t8Z1KH3pMJ1FRXfPxn/BwHMO50eVD23achBauEGyPAhm1rud2H1581e3Vgco93Up4K0A96ZXRXnEMOuMD1VtIF93jZbJ5AWzf4bXUK9BXnfPJ1TWFGc5x+ONcinIbXZ/UwEbqaHXcCDB4L79RcNwX25RANKj4Y+GV7vqL1QTuhbEOQ82UKsjbam9CKllGz8I03s21UWD6FSpQVLrTGuu46yu8iv2fdU/DO9R0b2Ltq3FFiXCXnyRXobU+XG7LFvrwCLZ49k4KBZ3VIfCERs21UvWG9UdqaRtvcsp6tJ0X/OtukRzYlk7olrLbnM7GfJiwFEWlN9NJmo6nd5TE5RMK56RyXQtt7MFrU11xhYvWfloGK0OruO3c0MNKfJTadplC5XrDDIB6ritchIPBJvhS8iUXaNAGnBMqXjj5zIjUbA88uxTK4qTLozM066pkpBLv2gUkI/P4LclIgC/LvDbwLuAQmrfFzuT8F1BLAwQUAAAICAAAoJ/rtWBAJG0AAAB4AAAACQAkAG1ldGEuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAatWKkstKs7Mz1OyUjDRM9IzNNdRUEovSizIKAaKGII4pZkpIHa0UlpqclKiSWJSYrJpWqKlYYquQbKRoYGBkbGZiZGRoZlFolIsUH1JZUGqX2JuKkRPQGJJRlpmXkpmXrqee1FmijvIaKXYWgBQSwECLQAUAAAICAAAoJ/ryzUYnGkCAAAqBQAACwAkAAAAAAAAAAAAAAAAAAAAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFQSwECLQAUAAAICAAAoJ/rtWBAJG0AAAB4AAAACQAkAAAAAAAAAAAAAAC2AgAAbWV0YS5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0BUEsFBgAAAAACAAIAuAAAAG4DAAAAAA==
     upgradeData: 
     file_cachedStartup: {fileID: 0}
     data_cachedStartup: 
@@ -74504,8 +74504,8 @@ Transform:
   m_GameObject: {fileID: 2022204014}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0.002, y: 0.1405, z: 0}
-  m_LocalScale: {x: 0.17894624, y: 0.2768324, z: 0.25}
+  m_LocalPosition: {x: -0.002, y: 0.1085, z: 0}
+  m_LocalScale: {x: 0.24286476, y: 0.25603366, z: 0.25}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 345482723}

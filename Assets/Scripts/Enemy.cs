@@ -53,6 +53,7 @@ public class Enemy : MonoBehaviour
     private Rigidbody2D rb;
     private HealthSystem healthSystem;
     private SpriteRenderer spriteRenderer;
+    private Material material;
     private ScreenEffects screenEffects;
     private AIDestinationSetter aiDestSet;
     private AILerp aiLerp;
@@ -72,6 +73,7 @@ public class Enemy : MonoBehaviour
 
         screenEffects = FindObjectOfType<ScreenEffects>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        material = spriteRenderer.material;
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         aiDestSet = GetComponent<AIDestinationSetter>();
@@ -264,9 +266,9 @@ public class Enemy : MonoBehaviour
 
     private IEnumerator HitFlash()
     {
-        spriteRenderer.color = flashColor;
-        yield return new WaitForSeconds(0.1f);
-        spriteRenderer.color = originalColor;
+        material.SetFloat("_FlashAmount", 1); 
+        yield return new WaitForSeconds(0.05f);
+        material.SetFloat("_FlashAmount", 0);
     }
 
     private IEnumerator ApplyKnockback(Vector2 direction)

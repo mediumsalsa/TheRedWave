@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     private HealthSystem healthSystem;
     private ScreenEffects screenEffects;
     private SpriteRenderer spriteRenderer;
+    private Material material;
 
     private void Start()
     {
@@ -26,6 +27,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        material = spriteRenderer.material;
         screenEffects = FindObjectOfType<ScreenEffects>();
 
         health = maxHealth;
@@ -120,9 +122,9 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator HitFlash()
     {
-        spriteRenderer.color = flashColor;
-        yield return new WaitForSeconds(0.1f);
-        spriteRenderer.color = originalColor;
+        material.SetFloat("_FlashAmount", 1); // Enable flash
+        yield return new WaitForSeconds(0.05f);
+        material.SetFloat("_FlashAmount", 0);
     }
 
     private IEnumerator ApplyKnockback(Vector2 direction)

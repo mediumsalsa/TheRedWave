@@ -62,7 +62,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 26d1e000306639d4a830534e5bb0c9f9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -201,10 +201,10 @@ MonoBehaviour:
   version: 1
   smoothType: 0
   subdivisions: 2
-  iterations: 2
-  strength: 0.5
+  iterations: 0
+  strength: 0
   uniformLength: 1
-  maxSegmentLength: 0.5
+  maxSegmentLength: 0.4
   bezierTangentLength: 0.4
   offset: 0.2
   factor: 0.1
