@@ -114,7 +114,7 @@ public class Enemy : MonoBehaviour
         }
 
         HandleStateTransitions();
-        UpdateAnimationParameters();
+        //UpdateAnimationParameters();
         HandleSpriteFlip();
     }
 
@@ -219,14 +219,14 @@ public class Enemy : MonoBehaviour
         previousPosition = currentPosition;
     }
 
-    void UpdateAnimationParameters()
-    {
-        Vector2 velocity = aiLerp.velocity;
+    //void UpdateAnimationParameters()
+    //{
+    //    Vector2 velocity = aiLerp.velocity;
 
-        // Update Animator parameters
-        animator.SetFloat("xInput", velocity.x);
-        animator.SetFloat("yInput", velocity.y);
-    }
+    //    // Update Animator parameters
+    //    animator.SetFloat("xInput", velocity.x);
+    //    animator.SetFloat("yInput", velocity.y);
+    //}
 
 
     private void OnTriggerEnter2D(Collider2D other)
