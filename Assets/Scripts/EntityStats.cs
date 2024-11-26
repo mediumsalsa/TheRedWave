@@ -5,4 +5,5 @@ using UnityEngine;
 public class EntityStats : MonoBehaviour
 {
     public int damage;
+    public int maxHealth;
 }

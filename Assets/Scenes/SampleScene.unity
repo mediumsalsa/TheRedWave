@@ -198,6 +198,7 @@ GameObject:
   - component: {fileID: 345482719}
   - component: {fileID: 345482718}
   - component: {fileID: 345482724}
+  - component: {fileID: 345482725}
   m_Layer: 8
   m_Name: Pirate
   m_TagString: Player
@@ -311,16 +312,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 12000
-  damage: 25
   movementSpeed: 1
   knockbackForce: 2
   knockbackDuration: 0.1
-  flashColor: {r: 1, g: 0, b: 0, a: 1}
   freezeDuration: 0.1
+  flashColor: {r: 1, g: 0, b: 0, a: 1}
   forwardHitbox: {fileID: 827358885}
   upHitbox: {fileID: 2022204014}
   downHitbox: {fileID: 1155863471}
-  spriteRenderer: {fileID: 345482722}
 --- !u!212 &345482722
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -403,6 +402,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c152e5d1f27fa4648ad55bf4033b2fcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &345482725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 345482717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2e58c93ae09d7744bc6d872788fa7dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 25
+  maxHealth: 12000
 --- !u!1 &427504036
 GameObject:
   m_ObjectHideFlags: 0
@@ -573,9 +586,9 @@ GameObject:
   - component: {fileID: 569585109}
   - component: {fileID: 569585108}
   - component: {fileID: 569585107}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cocogrunt
-  m_TagString: Untagged
+  m_TagString: Hit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -605,6 +618,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 25
+  maxHealth: 200
 --- !u!50 &569585109
 Rigidbody2D:
   serializedVersion: 4
@@ -645,7 +659,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 200
-  damage: 25
+  damage: 20
   patrolAreaRadius: 0.6
   patrolSpeed: 0.2
   player: {fileID: 345482723}
@@ -653,14 +667,13 @@ MonoBehaviour:
   chasingSpeed: 0.6
   searchDuration: 10
   searchWanderRadius: 0.6
-  knockbackForce: 3
+  knockbackForce: 4
   knockbackDuration: 0.1
-  flashColor: {r: 1, g: 1, b: 1, a: 1}
+  flashColor: {r: 1, g: 0, b: 0, a: 1}
   freezeDuration: 0.1
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 64
-  spriteRenderer: {fileID: 569585117}
 --- !u!58 &569585111
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1063,6 +1076,7 @@ GameObject:
   - component: {fileID: 827358887}
   - component: {fileID: 827358889}
   - component: {fileID: 827358890}
+  - component: {fileID: 827358891}
   m_Layer: 9
   m_Name: SwordHitboxForward
   m_TagString: Hit
@@ -1195,6 +1209,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 25
+  maxHealth: 1000
 --- !u!50 &827358890
 Rigidbody2D:
   serializedVersion: 4
@@ -1222,6 +1237,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &827358891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 827358885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c152e5d1f27fa4648ad55bf4033b2fcf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1155863471
 GameObject:
   m_ObjectHideFlags: 0
@@ -1235,6 +1262,7 @@ GameObject:
   - component: {fileID: 1155863473}
   - component: {fileID: 1155863475}
   - component: {fileID: 1155863476}
+  - component: {fileID: 1155863477}
   m_Layer: 9
   m_Name: SwordHitboxDown
   m_TagString: Hit
@@ -1367,6 +1395,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 25
+  maxHealth: 1000
 --- !u!50 &1155863476
 Rigidbody2D:
   serializedVersion: 4
@@ -1394,6 +1423,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &1155863477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1155863471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c152e5d1f27fa4648ad55bf4033b2fcf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1214100305
 GameObject:
   m_ObjectHideFlags: 0
@@ -74446,6 +74487,7 @@ GameObject:
   - component: {fileID: 2022204016}
   - component: {fileID: 2022204018}
   - component: {fileID: 2022204019}
+  - component: {fileID: 2022204020}
   m_Layer: 9
   m_Name: SwordHitboxUp
   m_TagString: Hit
@@ -74578,6 +74620,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 25
+  maxHealth: 1000
 --- !u!50 &2022204019
 Rigidbody2D:
   serializedVersion: 4
@@ -74605,6 +74648,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &2022204020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2022204014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c152e5d1f27fa4648ad55bf4033b2fcf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

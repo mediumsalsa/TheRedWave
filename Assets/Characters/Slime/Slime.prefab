@@ -271,7 +271,6 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 64
-  spriteRenderer: {fileID: 6403513699655981259}
 --- !u!50 &6859659653264665429
 Rigidbody2D:
   serializedVersion: 4
@@ -312,6 +311,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 20
+  maxHealth: 100
 --- !u!114 &3627136416673065910
 MonoBehaviour:
   m_ObjectHideFlags: 0

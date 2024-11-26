@@ -1,244 +1,120 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
-    [Header("Stat Settings")]
+    [Header("Stats")]
     public int maxHealth;
-    public int damage;
-    [SerializeField] private float movementSpeed = 1f;
-    private int health;
-
-    [Header("Knockback Settings")]
-    [SerializeField] private float knockbackForce = 5f;
-    [SerializeField] private float knockbackDuration = 0.5f;
+    [SerializeField] private float movementSpeed = 1f, knockbackForce = 5f, knockbackDuration = 0.5f, freezeDuration = 0.1f;
     [SerializeField] private Color flashColor = Color.white;
-    [SerializeField] private float freezeDuration = 0.1f;
-    private bool isKnockedBack = false;
+    [SerializeField] private GameObject forwardHitbox, upHitbox, downHitbox;
+
+    private int health;
+    private bool isKnockedBack = false, isAttacking = false;
     private Color originalColor;
-
-    [Header("Attack Hitbox")]
-    [SerializeField] private GameObject forwardHitbox;
-    [SerializeField] private GameObject upHitbox;
-    [SerializeField] private GameObject downHitbox;
-
     private Rigidbody2D rb;
     private Animator animator;
     private HealthSystem healthSystem;
-    public SpriteRenderer spriteRenderer;
     private ScreenEffects screenEffects;
+    private SpriteRenderer spriteRenderer;
 
-    private bool isAttacking = false;
-
-
-    void Start()
+    private void Start()
     {
         Time.timeScale = 1f;
-
         healthSystem = GetComponent<HealthSystem>();
-        if (healthSystem == null) Debug.Log("HealthSystem object not found!");
-
         rb = GetComponent<Rigidbody2D>();
-        if (rb == null) Debug.LogError("Rigidbody2D component is missing!");
-
         animator = GetComponent<Animator>();
-        if (animator == null) Debug.LogError("Animator component is missing!");
-
         spriteRenderer = GetComponent<SpriteRenderer>();
-        if (spriteRenderer == null)
-        {
-            Debug.LogError("SpriteRenderer component is missing!");
-            return; //Exit to avoid further errors
-        }
+        screenEffects = FindObjectOfType<ScreenEffects>();
 
         health = maxHealth;
         originalColor = spriteRenderer.color;
 
-        screenEffects = FindObjectOfType<ScreenEffects>();
-
-        if (forwardHitbox != null)
-        {
-            forwardHitbox.SetActive(false);
-        }
-        if (upHitbox != null)
-        {
-            upHitbox.SetActive(false);
-        }
-
-        if (downHitbox != null)
-        {
-            downHitbox.SetActive(false);
-        }
+        DeactivateHitboxes();
     }
 
-
-    void Update()
+    private void Update()
     {
         health = healthSystem.health;
-        if (health <= 0)
-        {
-            ResetLevel();
-        }
-
+        if (health <= 0) ResetLevel();
         if (isAttacking || isKnockedBack) return;
 
-        float hInput = Input.GetAxisRaw("Horizontal");
-        float vInput = Input.GetAxisRaw("Vertical");
+        HandleMovement();
+        if (Input.GetMouseButtonDown(0)) Attack();
+        if (Input.GetKeyDown(KeyCode.Escape)) Application.Quit();
+    }
 
-        //Moving
-        if (hInput != 0 || vInput != 0)
-        {
-            animator.SetFloat("xInput", hInput);
-            animator.SetFloat("yInput", vInput);
-            animator.Play("Run");
-        }
+    private void HandleMovement()
+    {
+        float hInput = Input.GetAxisRaw("Horizontal"), vInput = Input.GetAxisRaw("Vertical");
+        animator.SetFloat("xInput", hInput);
+        animator.SetFloat("yInput", vInput);
 
-        //Not moving
-        if (hInput == 0 && vInput == 0)
-        {
-            animator.Play("Idle");
-        }
+        animator.Play(hInput != 0 || vInput != 0 ? "Run" : "Idle");
+        transform.localScale = new Vector3(hInput < 0 ? -1 : 1, 1, 1);
 
-        //Flip the players sprites based on direction
-        if (hInput > 0) 
-        {
-            transform.localScale = new Vector3(1, 1, 1); 
-        }
-        else if (hInput < 0)
-        {
-            transform.localScale = new Vector3(-1, 1, 1); 
-        }
-
-        //Player Attacks
-        if (Input.GetMouseButtonDown(0))
-        {
-            Attack();
-        }
-
-        Vector2 movement = new Vector2(hInput, vInput);
-        movement.Normalize();
-
+        Vector2 movement = new Vector2(hInput, vInput).normalized;
         rb.MovePosition(rb.position + movement * movementSpeed * Time.fixedDeltaTime);
-
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Application.Quit();
-        }
-
     }
 
     private void Attack()
     {
         isAttacking = true;
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 direction = (mousePos - transform.position).normalized;
 
-        // Get mouse position in world coordinates
-        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 direction = (mousePosition - transform.position).normalized;
+        animator.SetFloat("xInput", direction.x);
+        animator.SetFloat("yInput", direction.y);
+        transform.localScale = new Vector3(mousePos.x < transform.position.x ? -1 : 1, 1, 1);
 
-        // Determine the attack direction
-        float xDir = direction.x;
-        float yDir = direction.y;
-
-        // Set animator parameters for attack direction
-        animator.SetFloat("xInput", xDir);
-        animator.SetFloat("yInput", yDir);
-
-        // Flip sprite based on mouse position relative to player
-        if (mousePosition.x < transform.position.x)
-        {
-            transform.localScale = new Vector3(-1, 1, 1); // Face left
-        }
-        else if (mousePosition.x > transform.position.x)
-        {
-            transform.localScale = new Vector3(1, 1, 1); // Face right
-        }
-
-        // Activate the appropriate hitbox
-        if (Mathf.Abs(xDir) > Mathf.Abs(yDir))
-        {
-            // Forward attack
+        if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
             ActivateHitbox(forwardHitbox);
-        }
-        else if (yDir > 0)
-        {
-            // Upward attack
-            ActivateHitbox(upHitbox);
-        }
         else
-        {
-            // Downward attack
-            ActivateHitbox(downHitbox);
-        }
+            ActivateHitbox(direction.y > 0 ? upHitbox : downHitbox);
 
-        // Trigger attack animation
         animator.Play("Attack");
     }
 
     private void ActivateHitbox(GameObject hitbox)
     {
-        // Disable all hitboxes first
-        if (forwardHitbox != null) forwardHitbox.SetActive(false);
-        if (upHitbox != null) upHitbox.SetActive(false);
-        if (downHitbox != null) downHitbox.SetActive(false);
-
-        // Enable the specified hitbox
+        DeactivateHitboxes();
         if (hitbox != null) hitbox.SetActive(true);
+    }
+
+    private void DeactivateHitboxes()
+    {
+        if (forwardHitbox) forwardHitbox.SetActive(false);
+        if (upHitbox) upHitbox.SetActive(false);
+        if (downHitbox) downHitbox.SetActive(false);
     }
 
     public void OnAttackAnimationEnd()
     {
         isAttacking = false;
-
-        // Disable all hitboxes
-        if (forwardHitbox != null) forwardHitbox.SetActive(false);
-        if (upHitbox != null) upHitbox.SetActive(false);
-        if (downHitbox != null) downHitbox.SetActive(false);
+        DeactivateHitboxes();
     }
-
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (!other.gameObject.CompareTag("Hit"))
-            return;
+        if (!other.CompareTag("Hit") || other.transform.IsChildOf(transform)) return;
 
-        // Ensure the hitbox is not part of this object (self-hit protection)
-        if (other.transform.IsChildOf(transform))
-            return;
-
-        // Get the attacker's stats if applicable
-        EntityStats attackerStats = other.GetComponent<EntityStats>();
-        if (attackerStats != null && !isKnockedBack)
+        EntityStats attacker = other.GetComponent<EntityStats>();
+        if (attacker != null && !isKnockedBack)
         {
-            Debug.Log($"{gameObject.name} had a collision Detected with {other.name}, Tag: {other.tag}, IsChild: {other.transform.IsChildOf(transform)}");
-            // Apply damage
-            healthSystem.TakeDamage(attackerStats.gameObject);
-            StartCoroutine(HitFlash());
+            healthSystem.TakeDamage(attacker.gameObject);
             StartCoroutine(HitEffects(other.transform.position));
         }
     }
 
     private IEnumerator HitEffects(Vector3 enemyPosition)
     {
-        // Flash effect
         StartCoroutine(HitFlash());
+        Vector2 knockbackDir = (transform.position - enemyPosition).normalized;
+        StartCoroutine(ApplyKnockback(knockbackDir));
 
-        //Apply knockback
-        Vector2 knockbackDirection = (transform.position - enemyPosition).normalized;
-        StartCoroutine(ApplyKnockback(knockbackDirection));
-
-        //Trigger screen shake and freeze frame
-        if (screenEffects != null)
-        {
-            screenEffects.FreezeFrame();
-            screenEffects.ScreenShake();
-        }
-        else
-        {
-            Debug.LogError("ScreenEffects instance is missing!");
-        }
-
+        screenEffects?.FreezeFrame();
+        screenEffects?.ScreenShake();
         yield return null;
     }
 
@@ -252,23 +128,15 @@ public class PlayerController : MonoBehaviour
     private IEnumerator ApplyKnockback(Vector2 direction)
     {
         isKnockedBack = true;
-
         float timer = 0f;
-
         while (timer < knockbackDuration)
         {
             rb.MovePosition(rb.position + direction * knockbackForce * Time.fixedDeltaTime);
             timer += Time.fixedDeltaTime;
             yield return new WaitForFixedUpdate();
         }
-
         isKnockedBack = false;
     }
 
-
-    public void ResetLevel()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
-
+    private void ResetLevel() => SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 }

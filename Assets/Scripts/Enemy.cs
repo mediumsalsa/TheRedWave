@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Windows;
+
 
 public class Enemy : MonoBehaviour
 {
@@ -22,18 +24,18 @@ public class Enemy : MonoBehaviour
     private int health;
 
     [Header("Patrolling Settings")]
-    private Vector2 patrolAreaCenter; 
-    public float patrolAreaRadius = 10f; 
+    private Vector2 patrolAreaCenter;
+    public float patrolAreaRadius = 10f;
     public float patrolSpeed = 2f;
 
     [Header("Chasing Settings")]
-    public Transform player; 
+    public Transform player;
     public float detectionRange = 5f;
     public float chasingSpeed = 4f;
 
     [Header("Searching Settings")]
-    public float searchDuration = 2f; 
-    public float searchWanderRadius = 3f; 
+    public float searchDuration = 2f;
+    public float searchWanderRadius = 3f;
     private Vector3 lastKnownPosition;
     private float searchTimer;
 
@@ -50,23 +52,32 @@ public class Enemy : MonoBehaviour
 
     private Rigidbody2D rb;
     private HealthSystem healthSystem;
-    public SpriteRenderer spriteRenderer;
+    private SpriteRenderer spriteRenderer;
     private ScreenEffects screenEffects;
     private AIDestinationSetter aiDestSet;
     private AILerp aiLerp;
+    private Animator animator;
+    private Vector2 previousPosition;
+
+    private float xInput;
+    private float yInput;
+    private float speed;
 
     void Start()
     {
         healthSystem = GetComponent<HealthSystem>();
+        health = maxHealth;
+        
         if (healthSystem == null) Debug.Log("HealthSystem object not found!");
 
         screenEffects = FindObjectOfType<ScreenEffects>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         aiDestSet = GetComponent<AIDestinationSetter>();
         aiLerp = GetComponent<AILerp>();
 
-        patrolAreaCenter = transform.position; 
+        patrolAreaCenter = transform.position;
         currentState = EnemyState.Patrolling;
 
         aiLerp.speed = patrolSpeed;
@@ -75,6 +86,8 @@ public class Enemy : MonoBehaviour
         isKnockedBack = false;
         health = maxHealth;
         originalColor = spriteRenderer.color;
+
+        previousPosition = transform.position;
     }
 
     void Update()
@@ -101,6 +114,8 @@ public class Enemy : MonoBehaviour
         }
 
         HandleStateTransitions();
+        UpdateAnimationParameters();
+        HandleSpriteFlip();
     }
 
     void PatrollingUpdate()
@@ -111,11 +126,12 @@ public class Enemy : MonoBehaviour
         }
     }
 
+
     void ChasingUpdate()
     {
-        aiDestSet.target = player; 
-        aiLerp.speed = chasingSpeed; 
-        lastKnownPosition = player.position; 
+        aiDestSet.target = player;
+        aiLerp.speed = chasingSpeed;
+        lastKnownPosition = player.position;
     }
 
     void SearchingUpdate()
@@ -134,7 +150,7 @@ public class Enemy : MonoBehaviour
         GameObject tempTarget = new GameObject("SearchTarget");
         tempTarget.transform.position = new Vector3(position.x, position.y, 0);
         aiDestSet.target = tempTarget.transform;
-        Destroy(tempTarget, 1f); 
+        Destroy(tempTarget, 1f);
     }
 
     void SetRandomPatrolPoint()
@@ -150,7 +166,7 @@ public class Enemy : MonoBehaviour
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
 
         RaycastHit2D hit = Physics2D.Raycast(transform.position, directionToPlayer, distanceToPlayer, obstacleLayer);
-        return hit.collider == null; 
+        return hit.collider == null;
     }
 
     void HandleStateTransitions()
@@ -171,23 +187,45 @@ public class Enemy : MonoBehaviour
                 if (!canSeePlayer || distanceToPlayer > detectionRange)
                 {
                     currentState = EnemyState.Searching;
-                    searchTimer = searchDuration; 
-                    SetTemporaryTarget(lastKnownPosition); 
+                    searchTimer = searchDuration;
+                    SetTemporaryTarget(lastKnownPosition);
                 }
                 break;
 
             case EnemyState.Searching:
                 if (distanceToPlayer <= detectionRange && canSeePlayer)
                 {
-                    currentState = EnemyState.Chasing; 
+                    currentState = EnemyState.Chasing;
                 }
                 else if (searchTimer <= 0)
                 {
                     currentState = EnemyState.Patrolling;
-                    SetRandomPatrolPoint(); 
+                    SetRandomPatrolPoint();
                 }
                 break;
         }
+    }
+
+    void HandleSpriteFlip()
+    {
+        Vector2 currentPosition = transform.position;
+        Vector2 direction = currentPosition - previousPosition;
+
+        if (direction.x != 0)
+        {
+            spriteRenderer.flipX = direction.x < 0;
+        }
+
+        previousPosition = currentPosition;
+    }
+
+    void UpdateAnimationParameters()
+    {
+        Vector2 velocity = aiLerp.velocity;
+
+        // Update Animator parameters
+        animator.SetFloat("xInput", velocity.x);
+        animator.SetFloat("yInput", velocity.y);
     }
 
 
@@ -204,7 +242,7 @@ public class Enemy : MonoBehaviour
         EntityStats attackerStats = other.GetComponent<EntityStats>();
         if (attackerStats != null && !isKnockedBack)
         {
-            Debug.Log($"{gameObject.name } had a collision Detected with {other.name}, Tag: {other.tag}, IsChild: {other.transform.IsChildOf(transform)}");
+            Debug.Log($"{gameObject.name} had a collision Detected with {other.name}, Tag: {other.tag}, IsChild: {other.transform.IsChildOf(transform)}");
             // Apply damage
             healthSystem.TakeDamage(attackerStats.gameObject);
             StartCoroutine(HitFlash());
