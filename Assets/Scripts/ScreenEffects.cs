@@ -12,6 +12,11 @@ public class ScreenEffects : MonoBehaviour
     [SerializeField] private float defaultShakeIntensity = 0.2f;
     [SerializeField] private float defaultFreezeDuration = 0.1f;
 
+    [Header("Knockback Settings")]
+    [SerializeField] private float knockbackForce = 5f;
+    [SerializeField] private float knockbackDuration = 0.2f;
+    private bool isKnockedBack;
+
     private void Awake()
     {
         if (mainCamera == null)
@@ -36,8 +41,6 @@ public class ScreenEffects : MonoBehaviour
         {
             float shakeDuration = duration > 0 ? duration : defaultShakeDuration;
             float shakeIntensity = intensity > 0 ? intensity : defaultShakeIntensity;
-
-            //Debug.Log($"ScreenShake triggered with duration: {shakeDuration}, intensity: {shakeIntensity}");
             StartCoroutine(Shake(shakeDuration, shakeIntensity));
         }
         else
@@ -48,9 +51,7 @@ public class ScreenEffects : MonoBehaviour
 
     private IEnumerator Shake(float duration, float intensity)
     {
-        originalPosition = mainCamera.transform.position; // Dynamically set the original position
         float elapsed = 0f;
-
         while (elapsed < duration)
         {
             Vector3 randomOffset = new Vector3(
@@ -60,11 +61,11 @@ public class ScreenEffects : MonoBehaviour
             );
 
             mainCamera.transform.position = originalPosition + randomOffset;
-            elapsed += Time.unscaledDeltaTime; // Use unscaledDeltaTime for freeze compatibility
+            elapsed += Time.unscaledDeltaTime;
             yield return null;
         }
 
-        mainCamera.transform.position = originalPosition; // Reset to original position
+        mainCamera.transform.position = originalPosition;
     }
 
     // Public method to apply freeze frame
@@ -78,11 +79,81 @@ public class ScreenEffects : MonoBehaviour
     {
         if (Time.timeScale != 0)
         {
-            //Debug.Log($"FreezeFrame triggered for duration: {duration}");
             float originalTimeScale = Time.timeScale;
-            Time.timeScale = 0f; // Pause the game
-            yield return new WaitForSecondsRealtime(duration); // Use unscaled time
-            Time.timeScale = originalTimeScale; // Restore time scale
+            Time.timeScale = 0f;
+            yield return new WaitForSecondsRealtime(duration);
+            Time.timeScale = originalTimeScale;
         }
+    }
+
+    // Public method to apply hit effects
+    public void TriggerHitEffects(GameObject target, Vector3 enemyPosition, bool isKnocked_Back)
+    {
+        StartCoroutine(HitEffectsRoutine(target, enemyPosition, isKnockedBack));
+    }
+
+    private IEnumerator HitEffectsRoutine(GameObject target, Vector3 enemyPosition, bool isKnocked_Back)
+    {
+        // Flash effect
+        StartCoroutine(HitFlash(target));
+
+        // Knockback
+        Vector2 knockbackDir = (target.transform.position - enemyPosition).normalized;
+        Rigidbody2D rb = target.GetComponent<Rigidbody2D>();
+        if (rb != null)
+        {
+            StartCoroutine(ApplyKnockback(rb, knockbackDir, isKnocked_Back));
+        }
+
+        // Freeze and shake
+        FreezeFrame();
+        ScreenShake();
+        yield return null;
+    }
+
+    // Hit flash visual effect
+    private IEnumerator HitFlash(GameObject target)
+    {
+        SpriteRenderer renderer = target.GetComponent<SpriteRenderer>();
+        if (renderer != null)
+        {
+            Material material = renderer.material;
+            material.SetFloat("_FlashAmount", 1);
+            yield return new WaitForSeconds(0.05f);
+            material.SetFloat("_FlashAmount", 0);
+        }
+    }
+
+    // Apply knockback force
+    private IEnumerator ApplyKnockback(Rigidbody2D rb, Vector2 direction, bool is_KnockedBack)
+    {
+    if (rb == null)
+    {
+        Debug.LogWarning("Rigidbody2D is null. Knockback cancelled.");
+        yield break;
+    }
+    isKnockedBack = true;
+    is_KnockedBack = true;
+    float timer = 0f;
+
+    while (timer < knockbackDuration)
+    {
+        if (rb == null) // Check if Rigidbody2D is destroyed during the loop
+        {
+            Debug.LogWarning("Rigidbody2D was destroyed during knockback.");
+            yield break;
+        }
+
+        rb.velocity = direction * knockbackForce;
+        timer += Time.fixedDeltaTime;
+        yield return new WaitForFixedUpdate();
+    }
+
+    if (rb != null) // Safeguard against null before resetting velocity
+    {
+        rb.velocity = Vector2.zero;
+    }
+    isKnockedBack = false;
+    is_KnockedBack = false;
     }
 }

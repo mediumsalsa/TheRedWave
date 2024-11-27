@@ -515,7 +515,7 @@ Camera:
   far clip plane: 1000
   field of view: 11
   orthographic: 1
-  orthographic size: 1
+  orthographic size: 1.2
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -40727,6 +40727,8 @@ MonoBehaviour:
   defaultShakeDuration: 0.1
   defaultShakeIntensity: 1
   defaultFreezeDuration: 0.1
+  knockbackForce: 5
+  knockbackDuration: 0.2
 --- !u!4 &1770676512
 Transform:
   m_ObjectHideFlags: 0

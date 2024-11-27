@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -102,43 +103,45 @@ public class PlayerController : MonoBehaviour
         if (!other.CompareTag("Hit") || other.transform.IsChildOf(transform)) return;
 
         EntityStats attacker = other.GetComponent<EntityStats>();
-        if (attacker != null && !isKnockedBack)
+        if (attacker != null)
         {
+            isKnockedBack = true;
+            Vector3 enemyPosition = other.transform.position;
+            screenEffects.TriggerHitEffects(gameObject, enemyPosition, isKnockedBack);
             healthSystem.TakeDamage(attacker.gameObject);
-            StartCoroutine(HitEffects(other.transform.position));
         }
     }
 
-    private IEnumerator HitEffects(Vector3 enemyPosition)
-    {
-        StartCoroutine(HitFlash());
-        Vector2 knockbackDir = (transform.position - enemyPosition).normalized;
-        StartCoroutine(ApplyKnockback(knockbackDir));
+    //private IEnumerator HitEffects(Vector3 enemyPosition)
+    //{
+    //    StartCoroutine(screenEffects.HitFlash(gameObject));
+    //    Vector2 knockbackDir = (transform.position - enemyPosition).normalized;
+    //    StartCoroutine(screenEffects.ApplyKnockback(knockbackDir));
 
-        screenEffects?.FreezeFrame();
-        screenEffects?.ScreenShake();
-        yield return null;
-    }
+    //    screenEffects?.FreezeFrame();
+    //    screenEffects?.ScreenShake();
+    //    yield return null;
+    //}
 
-    private IEnumerator HitFlash()
-    {
-        material.SetFloat("_FlashAmount", 1); // Enable flash
-        yield return new WaitForSeconds(0.05f);
-        material.SetFloat("_FlashAmount", 0);
-    }
+    //private IEnumerator HitFlash()
+    //{
+    //    material.SetFloat("_FlashAmount", 1); // Enable flash
+    //    yield return new WaitForSeconds(0.05f);
+    //    material.SetFloat("_FlashAmount", 0);
+    //}
 
-    private IEnumerator ApplyKnockback(Vector2 direction)
-    {
-        isKnockedBack = true;
-        float timer = 0f;
-        while (timer < knockbackDuration)
-        {
-            rb.MovePosition(rb.position + direction * knockbackForce * Time.fixedDeltaTime);
-            timer += Time.fixedDeltaTime;
-            yield return new WaitForFixedUpdate();
-        }
-        isKnockedBack = false;
-    }
+    //private IEnumerator ApplyKnockback(Vector2 direction)
+    //{
+    //    isKnockedBack = true;
+    //    float timer = 0f;
+    //    while (timer < knockbackDuration)
+    //    {
+    //        rb.MovePosition(rb.position + direction * knockbackForce * Time.fixedDeltaTime);
+    //        timer += Time.fixedDeltaTime;
+    //        yield return new WaitForFixedUpdate();
+    //    }
+    //    isKnockedBack = false;
+    //}
 
     private void ResetLevel() => SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 }

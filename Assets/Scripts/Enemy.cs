@@ -233,65 +233,63 @@ public class Enemy : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (!other.gameObject.CompareTag("Hit"))
+        if (!other.CompareTag("Hit") || other.transform.IsChildOf(transform))
             return;
 
-        // Ensure the hitbox is not part of this object (self-hit protection)
-        if (other.transform.IsChildOf(transform))
-            return;
-
-        // Get the attacker's stats if applicable
         EntityStats attackerStats = other.GetComponent<EntityStats>();
-        if (attackerStats != null && !isKnockedBack)
+        if (attackerStats != null)
         {
-            Debug.Log($"{gameObject.name} had a collision Detected with {other.name}, Tag: {other.tag}, IsChild: {other.transform.IsChildOf(transform)}");
-            // Apply damage
+            Debug.Log($"{gameObject.name} collided with {other.name}, Tag: {other.tag}");
+
+            // Apply damage to the enemy
             healthSystem.TakeDamage(attackerStats.gameObject);
-            StartCoroutine(HitFlash());
-            StartCoroutine(HitEffects(other.transform.position));
+
+            // Trigger screen effects
+            Vector3 enemyPosition = other.transform.position;
+            screenEffects.TriggerHitEffects(gameObject, enemyPosition, isKnockedBack);
         }
     }
 
-    private IEnumerator HitEffects(Vector3 enemyPosition)
-    {
-        // Flash effect
-        StartCoroutine(HitFlash());
+    //private IEnumerator HitEffects(Vector3 enemyPosition)
+    //{
+    //    // Flash effect
+    //    StartCoroutine(HitFlash());
 
-        //Apply knockback
-        screenEffects.FreezeFrame();
-        Vector2 knockbackDirection = (transform.position - enemyPosition).normalized;
-        StartCoroutine(ApplyKnockback(knockbackDirection));
-        yield return null;
-    }
+    //    //Apply knockback
+    //    screenEffects.FreezeFrame();
+    //    Vector2 knockbackDirection = (transform.position - enemyPosition).normalized;
+    //    StartCoroutine(ApplyKnockback(knockbackDirection));
+    //    yield return null;
+    //}
 
-    private IEnumerator HitFlash()
-    {
-        material.SetFloat("_FlashAmount", 1); 
-        yield return new WaitForSeconds(0.05f);
-        material.SetFloat("_FlashAmount", 0);
-    }
+    //private IEnumerator HitFlash()
+    //{
+    //    material.SetFloat("_FlashAmount", 1); 
+    //    yield return new WaitForSeconds(0.05f);
+    //    material.SetFloat("_FlashAmount", 0);
+    //}
 
-    private IEnumerator ApplyKnockback(Vector2 direction)
-    {
-        isKnockedBack = true;
+    //private IEnumerator ApplyKnockback(Vector2 direction)
+    //{
+    //    isKnockedBack = true;
 
-        // Temporarily disable AILerp movement
-        AILerp aiLerp = GetComponent<AILerp>();
-        if (aiLerp != null)
-            aiLerp.enabled = false;
+    //    // Temporarily disable AILerp movement
+    //    AILerp aiLerp = GetComponent<AILerp>();
+    //    if (aiLerp != null)
+    //        aiLerp.enabled = false;
 
-        float timer = 0f;
-        while (timer < knockbackDuration)
-        {
-            rb.MovePosition(rb.position + direction * knockbackForce * Time.fixedDeltaTime);
-            timer += Time.fixedDeltaTime;
-            yield return new WaitForFixedUpdate();
-        }
+    //    float timer = 0f;
+    //    while (timer < knockbackDuration)
+    //    {
+    //        rb.MovePosition(rb.position + direction * knockbackForce * Time.fixedDeltaTime);
+    //        timer += Time.fixedDeltaTime;
+    //        yield return new WaitForFixedUpdate();
+    //    }
 
-        if (aiLerp != null)
-            aiLerp.enabled = true;
+    //    if (aiLerp != null)
+    //        aiLerp.enabled = true;
 
-        isKnockedBack = false;
-    }
+    //    isKnockedBack = false;
+    //}
 
 }
