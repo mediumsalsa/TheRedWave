@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class EntityStats : MonoBehaviour
+public class EntityStats : Entity
 {
     public int damage;
     public int maxHealth;

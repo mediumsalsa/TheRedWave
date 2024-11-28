@@ -170,6 +170,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3993831361479658378, guid: 8b97d0194a581564cbdc742738bc7607, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 345482723}
+    - target: {fileID: 4256407263635258921, guid: 8b97d0194a581564cbdc742738bc7607, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 345482723}
     - target: {fileID: 5370632033724165702, guid: 8b97d0194a581564cbdc742738bc7607, type: 3}
       propertyPath: m_Name
       value: Slime (4)
@@ -311,9 +319,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df680af29b537bd45a3d11017b73c5aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isKnockedBack: 0
   maxHealth: 12000
   movementSpeed: 1
-  knockbackForce: 2
+  knockbackForce: 1
   knockbackDuration: 0.1
   freezeDuration: 0.1
   flashColor: {r: 1, g: 0, b: 0, a: 1}
@@ -414,6 +423,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2e58c93ae09d7744bc6d872788fa7dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isKnockedBack: 0
   damage: 25
   maxHealth: 12000
 --- !u!1 &427504036
@@ -445,7 +455,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1559279636}
   - {fileID: 1470765704}
   - {fileID: 2007709221}
   - {fileID: 552575588}
@@ -582,10 +591,10 @@ GameObject:
   - component: {fileID: 569585113}
   - component: {fileID: 569585112}
   - component: {fileID: 569585111}
-  - component: {fileID: 569585110}
   - component: {fileID: 569585109}
   - component: {fileID: 569585108}
   - component: {fileID: 569585107}
+  - component: {fileID: 569585119}
   m_Layer: 7
   m_Name: Cocogrunt
   m_TagString: Hit
@@ -617,6 +626,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2e58c93ae09d7744bc6d872788fa7dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isKnockedBack: 0
   damage: 25
   maxHealth: 200
 --- !u!50 &569585109
@@ -646,34 +656,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &569585110
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 569585106}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3168aaf5694d4bc44ad39b0e832aad05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 200
-  damage: 20
-  patrolAreaRadius: 0.6
-  patrolSpeed: 0.3
-  player: {fileID: 345482723}
-  detectionRange: 1
-  chasingSpeed: 0.5
-  searchDuration: 10
-  searchWanderRadius: 0.6
-  knockbackForce: 4
-  knockbackDuration: 0.1
-  flashColor: {r: 1, g: 0, b: 0, a: 1}
-  freezeDuration: 0.1
-  obstacleLayer:
-    serializedVersion: 2
-    m_Bits: 64
 --- !u!58 &569585111
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -773,7 +755,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   version: 1
-  target: {fileID: 0}
+  target: {fileID: 345482723}
 --- !u!114 &569585115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -864,7 +846,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 826650940, guid: 30085ae6fa465e8429a79195fa07dab0, type: 3}
+  m_Sprite: {fileID: 762492770, guid: 30085ae6fa465e8429a79195fa07dab0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -884,77 +866,41 @@ Transform:
   m_GameObject: {fileID: 569585106}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.482, y: -1.752, z: 0}
+  m_LocalPosition: {x: -2.092, y: -1.953, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &660435338
-PrefabInstance:
+--- !u!114 &569585119
+MonoBehaviour:
   m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 427504037}
-    m_Modifications:
-    - target: {fileID: 1616649955988380138, guid: 8b97d0194a581564cbdc742738bc7607, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -1.3942033
-      objectReference: {fileID: 0}
-    - target: {fileID: 1616649955988380138, guid: 8b97d0194a581564cbdc742738bc7607, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.5461222
-      objectReference: {fileID: 0}
-    - target: {fileID: 1616649955988380138, guid: 8b97d0194a581564cbdc742738bc7607, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.0049961205
-      objectReference: {fileID: 0}
-    - target: {fileID: 1616649955988380138, guid: 8b97d0194a581564cbdc742738bc7607, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1616649955988380138, guid: 8b97d0194a581564cbdc742738bc7607, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1616649955988380138, guid: 8b97d0194a581564cbdc742738bc7607, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1616649955988380138, guid: 8b97d0194a581564cbdc742738bc7607, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1616649955988380138, guid: 8b97d0194a581564cbdc742738bc7607, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1616649955988380138, guid: 8b97d0194a581564cbdc742738bc7607, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1616649955988380138, guid: 8b97d0194a581564cbdc742738bc7607, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5370632033724165702, guid: 8b97d0194a581564cbdc742738bc7607, type: 3}
-      propertyPath: m_Name
-      value: Slime
-      objectReference: {fileID: 0}
-    - target: {fileID: 5370632033724165702, guid: 8b97d0194a581564cbdc742738bc7607, type: 3}
-      propertyPath: m_TagString
-      value: Hit
-      objectReference: {fileID: 0}
-    - target: {fileID: 7645397812301950058, guid: 8b97d0194a581564cbdc742738bc7607, type: 3}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 345482723}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 8b97d0194a581564cbdc742738bc7607, type: 3}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 569585106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6423c6c41b37cba44b868fa5911cecc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isKnockedBack: 0
+  maxHealth: 200
+  damage: 25
+  patrolAreaRadius: 0.1
+  patrolSpeed: 0.2
+  player: {fileID: 345482723}
+  detectionRange: 1
+  chasingSpeed: 0.3
+  searchDuration: 0
+  searchWanderRadius: 1
+  knockbackForce: 5
+  knockbackDuration: 0.1
+  flashColor: {r: 1, g: 1, b: 1, a: 1}
+  freezeDuration: 0.1
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &689365172
 GameObject:
   m_ObjectHideFlags: 0
@@ -1050,6 +996,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3993831361479658378, guid: 8b97d0194a581564cbdc742738bc7607, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 345482723}
+    - target: {fileID: 4256407263635258921, guid: 8b97d0194a581564cbdc742738bc7607, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 345482723}
     - target: {fileID: 5370632033724165702, guid: 8b97d0194a581564cbdc742738bc7607, type: 3}
       propertyPath: m_Name
       value: Slime (3)
@@ -1208,6 +1162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2e58c93ae09d7744bc6d872788fa7dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isKnockedBack: 0
   damage: 25
   maxHealth: 1000
 --- !u!50 &827358890
@@ -1394,6 +1349,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2e58c93ae09d7744bc6d872788fa7dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isKnockedBack: 0
   damage: 25
   maxHealth: 1000
 --- !u!50 &1155863476
@@ -40421,6 +40377,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3993831361479658378, guid: 8b97d0194a581564cbdc742738bc7607, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 345482723}
+    - target: {fileID: 4256407263635258921, guid: 8b97d0194a581564cbdc742738bc7607, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 345482723}
     - target: {fileID: 5370632033724165702, guid: 8b97d0194a581564cbdc742738bc7607, type: 3}
       propertyPath: m_Name
       value: Slime (2)
@@ -40482,6 +40446,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3993831361479658378, guid: 8b97d0194a581564cbdc742738bc7607, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 345482723}
+    - target: {fileID: 4256407263635258921, guid: 8b97d0194a581564cbdc742738bc7607, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 345482723}
     - target: {fileID: 5370632033724165702, guid: 8b97d0194a581564cbdc742738bc7607, type: 3}
       propertyPath: m_Name
       value: Slime (1)
@@ -40548,6 +40520,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3993831361479658378, guid: 8b97d0194a581564cbdc742738bc7607, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 345482723}
+    - target: {fileID: 4256407263635258921, guid: 8b97d0194a581564cbdc742738bc7607, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 345482723}
     - target: {fileID: 5370632033724165702, guid: 8b97d0194a581564cbdc742738bc7607, type: 3}
       propertyPath: m_Name
       value: Slime (8)
@@ -40565,11 +40545,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8b97d0194a581564cbdc742738bc7607, type: 3}
---- !u!4 &1559279636 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1616649955988380138, guid: 8b97d0194a581564cbdc742738bc7607, type: 3}
-  m_PrefabInstance: {fileID: 660435338}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1669251901
 GameObject:
   m_ObjectHideFlags: 0
@@ -40723,12 +40698,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05ac430688ca69542baf87a753d413ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainCamera: {fileID: 519420031}
   defaultShakeDuration: 0.1
   defaultShakeIntensity: 1
   defaultFreezeDuration: 0.1
-  knockbackForce: 5
-  knockbackDuration: 0.2
+  knockbackForce: 3
+  knockbackDuration: 0.1
 --- !u!4 &1770676512
 Transform:
   m_ObjectHideFlags: 0
@@ -74621,6 +74595,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2e58c93ae09d7744bc6d872788fa7dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isKnockedBack: 0
   damage: 25
   maxHealth: 1000
 --- !u!50 &2022204019

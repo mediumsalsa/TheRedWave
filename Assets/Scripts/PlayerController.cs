@@ -1,9 +1,7 @@
-using System.Collections;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : Entity
 {
     [Header("Stats")]
     public int maxHealth;
@@ -12,7 +10,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject forwardHitbox, upHitbox, downHitbox;
 
     private int health;
-    private bool isKnockedBack = false, isAttacking = false;
+    private bool isAttacking = false;
     private Color originalColor;
     private Rigidbody2D rb;
     private Animator animator;
@@ -100,48 +98,23 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (!other.CompareTag("Hit") || other.transform.IsChildOf(transform)) return;
-
-        EntityStats attacker = other.GetComponent<EntityStats>();
-        if (attacker != null)
         {
-            isKnockedBack = true;
-            Vector3 enemyPosition = other.transform.position;
-            screenEffects.TriggerHitEffects(gameObject, enemyPosition, isKnockedBack);
-            healthSystem.TakeDamage(attacker.gameObject);
+            if (!other.CompareTag("Hit") || other.transform.IsChildOf(transform)) return;
+
+            EntityStats attacker = other.GetComponent<EntityStats>();
+            if (attacker != null && !isKnockedBack) // Check knockback state here
+            {
+                Debug.Log($"{gameObject.name} collided with {other.name}");
+                Vector3 enemyPosition = other.transform.position;
+
+                // Trigger screen effects
+                screenEffects.TriggerHitEffects(gameObject, enemyPosition);
+
+                // Apply damage
+                healthSystem.TakeDamage(attacker.gameObject);
+            }
         }
     }
-
-    //private IEnumerator HitEffects(Vector3 enemyPosition)
-    //{
-    //    StartCoroutine(screenEffects.HitFlash(gameObject));
-    //    Vector2 knockbackDir = (transform.position - enemyPosition).normalized;
-    //    StartCoroutine(screenEffects.ApplyKnockback(knockbackDir));
-
-    //    screenEffects?.FreezeFrame();
-    //    screenEffects?.ScreenShake();
-    //    yield return null;
-    //}
-
-    //private IEnumerator HitFlash()
-    //{
-    //    material.SetFloat("_FlashAmount", 1); // Enable flash
-    //    yield return new WaitForSeconds(0.05f);
-    //    material.SetFloat("_FlashAmount", 0);
-    //}
-
-    //private IEnumerator ApplyKnockback(Vector2 direction)
-    //{
-    //    isKnockedBack = true;
-    //    float timer = 0f;
-    //    while (timer < knockbackDuration)
-    //    {
-    //        rb.MovePosition(rb.position + direction * knockbackForce * Time.fixedDeltaTime);
-    //        timer += Time.fixedDeltaTime;
-    //        yield return new WaitForFixedUpdate();
-    //    }
-    //    isKnockedBack = false;
-    //}
 
     private void ResetLevel() => SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 }

@@ -16,10 +16,10 @@ GameObject:
   - component: {fileID: 3305112547256252736}
   - component: {fileID: 7627551076328801504}
   - component: {fileID: 5173489423206376376}
-  - component: {fileID: 7645397812301950058}
   - component: {fileID: 6859659653264665429}
   - component: {fileID: 3022996933601353888}
   - component: {fileID: 3627136416673065910}
+  - component: {fileID: 4256407263635258921}
   m_Layer: 7
   m_Name: Slime
   m_TagString: Hit
@@ -243,34 +243,6 @@ CircleCollider2D:
   m_Offset: {x: -0.0053201914, y: -0.0154412985}
   serializedVersion: 2
   m_Radius: 0.07573676
---- !u!114 &7645397812301950058
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5370632033724165702}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3168aaf5694d4bc44ad39b0e832aad05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 100
-  damage: 20
-  patrolAreaRadius: 0.5
-  patrolSpeed: 0.3
-  player: {fileID: 0}
-  detectionRange: 1
-  chasingSpeed: 0.5
-  searchDuration: 6
-  searchWanderRadius: 0.5
-  knockbackForce: 4
-  knockbackDuration: 0.1
-  flashColor: {r: 1, g: 0, b: 0, a: 1}
-  freezeDuration: 0.1
-  obstacleLayer:
-    serializedVersion: 2
-    m_Bits: 64
 --- !u!50 &6859659653264665429
 Rigidbody2D:
   serializedVersion: 4
@@ -310,6 +282,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2e58c93ae09d7744bc6d872788fa7dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isKnockedBack: 0
   damage: 20
   maxHealth: 100
 --- !u!114 &3627136416673065910
@@ -324,3 +297,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c152e5d1f27fa4648ad55bf4033b2fcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4256407263635258921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5370632033724165702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6423c6c41b37cba44b868fa5911cecc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isKnockedBack: 0
+  maxHealth: 100
+  damage: 20
+  patrolAreaRadius: 1
+  patrolSpeed: 0.2
+  player: {fileID: 0}
+  detectionRange: 0.1
+  chasingSpeed: 0.3
+  searchDuration: 6
+  searchWanderRadius: 1
+  knockbackForce: 5
+  knockbackDuration: 0.1
+  flashColor: {r: 1, g: 1, b: 1, a: 1}
+  freezeDuration: 0.1
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 64

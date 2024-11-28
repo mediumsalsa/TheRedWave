@@ -1,12 +1,7 @@
 using Pathfinding;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.Windows;
 
-
-public class Enemy : MonoBehaviour
+public class Enemy : Entity
 {
 
     public enum EnemyState
@@ -44,7 +39,6 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float knockbackDuration = 0.5f;
     [SerializeField] private Color flashColor = Color.white;
     [SerializeField] private float freezeDuration = 0.1f;
-    private bool isKnockedBack = false;
     private Color originalColor;
 
     [Header("Vision Settings")]
@@ -85,7 +79,6 @@ public class Enemy : MonoBehaviour
         aiLerp.speed = patrolSpeed;
         SetRandomPatrolPoint();
 
-        isKnockedBack = false;
         health = maxHealth;
         originalColor = spriteRenderer.color;
 
@@ -221,75 +214,26 @@ public class Enemy : MonoBehaviour
         previousPosition = currentPosition;
     }
 
-    //void UpdateAnimationParameters()
-    //{
-    //    Vector2 velocity = aiLerp.velocity;
-
-    //    // Update Animator parameters
-    //    animator.SetFloat("xInput", velocity.x);
-    //    animator.SetFloat("yInput", velocity.y);
-    //}
-
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (!other.CompareTag("Hit") || other.transform.IsChildOf(transform))
-            return;
-
-        EntityStats attackerStats = other.GetComponent<EntityStats>();
-        if (attackerStats != null)
         {
-            Debug.Log($"{gameObject.name} collided with {other.name}, Tag: {other.tag}");
+            if (!other.CompareTag("Hit") || other.transform.IsChildOf(transform)) return;
 
-            // Apply damage to the enemy
-            healthSystem.TakeDamage(attackerStats.gameObject);
+            EntityStats attacker = other.GetComponent<EntityStats>();
+            if (attacker != null && !isKnockedBack) // Check knockback state here
+            {
+                Debug.Log($"{gameObject.name} collided with {other.name}");
+                Vector3 enemyPosition = other.transform.position;
 
-            // Trigger screen effects
-            Vector3 enemyPosition = other.transform.position;
-            screenEffects.TriggerHitEffects(gameObject, enemyPosition, isKnockedBack);
+                // Trigger screen effects
+                screenEffects.TriggerHitEffects(gameObject, enemyPosition);
+
+                // Apply damage
+                healthSystem.TakeDamage(attacker.gameObject);
+            }
         }
     }
 
-    //private IEnumerator HitEffects(Vector3 enemyPosition)
-    //{
-    //    // Flash effect
-    //    StartCoroutine(HitFlash());
-
-    //    //Apply knockback
-    //    screenEffects.FreezeFrame();
-    //    Vector2 knockbackDirection = (transform.position - enemyPosition).normalized;
-    //    StartCoroutine(ApplyKnockback(knockbackDirection));
-    //    yield return null;
-    //}
-
-    //private IEnumerator HitFlash()
-    //{
-    //    material.SetFloat("_FlashAmount", 1); 
-    //    yield return new WaitForSeconds(0.05f);
-    //    material.SetFloat("_FlashAmount", 0);
-    //}
-
-    //private IEnumerator ApplyKnockback(Vector2 direction)
-    //{
-    //    isKnockedBack = true;
-
-    //    // Temporarily disable AILerp movement
-    //    AILerp aiLerp = GetComponent<AILerp>();
-    //    if (aiLerp != null)
-    //        aiLerp.enabled = false;
-
-    //    float timer = 0f;
-    //    while (timer < knockbackDuration)
-    //    {
-    //        rb.MovePosition(rb.position + direction * knockbackForce * Time.fixedDeltaTime);
-    //        timer += Time.fixedDeltaTime;
-    //        yield return new WaitForFixedUpdate();
-    //    }
-
-    //    if (aiLerp != null)
-    //        aiLerp.enabled = true;
-
-    //    isKnockedBack = false;
-    //}
 
 }

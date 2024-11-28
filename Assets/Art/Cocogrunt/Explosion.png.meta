@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: fe31aaeff71797642a4df1b685153a75
+guid: c807b200a4e6e75448363833f0cf1b39
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -97,7 +97,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Cocogrunt 1_0
+      name: Explosion_0
       rect:
         serializedVersion: 2
         x: 0
@@ -111,14 +111,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d31ae2a9595dfa34dac3badfbeb2db84
-      internalID: 1506178070
+      spriteID: 035bf663cc00ee74aa7d592afe6a496e
+      internalID: 786844929
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Cocogrunt 1_1
+      name: Explosion_1
       rect:
         serializedVersion: 2
         x: 64
@@ -132,14 +132,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 024b2956f658fcb4d975c8b9e3fe319c
-      internalID: 244460600
+      spriteID: fd5ad9ab367f3a84b907f587a4f5e78e
+      internalID: 767509925
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Cocogrunt 1_2
+      name: Explosion_2
       rect:
         serializedVersion: 2
         x: 128
@@ -153,14 +153,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 30219fdf0ce17cd4c8f738c4279725eb
-      internalID: 1019165753
+      spriteID: a6b7ffd4e830acf4eb749616f74a9034
+      internalID: -1692185563
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Cocogrunt 1_3
+      name: Explosion_3
       rect:
         serializedVersion: 2
         x: 192
@@ -174,98 +174,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0fe45c89bf5795540b01290b36aeb0b6
-      internalID: 918427536
+      spriteID: 4637eaa3e7621e147ad01290339c53af
+      internalID: -2140857422
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Cocogrunt 1_4
-      rect:
-        serializedVersion: 2
-        x: 256
-        y: 64
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 873096ac077a4064f851eb2544a978f7
-      internalID: -46449441
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Cocogrunt 1_5
-      rect:
-        serializedVersion: 2
-        x: 320
-        y: 64
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d24a676f4e52a104f9a6c38e68027c46
-      internalID: -227760936
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Cocogrunt 1_6
-      rect:
-        serializedVersion: 2
-        x: 384
-        y: 64
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 55573594dcabae249b39aff020f29fa4
-      internalID: -271090861
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Cocogrunt 1_7
-      rect:
-        serializedVersion: 2
-        x: 448
-        y: 64
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 78c9ee9a390e77a49917bb44b1337ba6
-      internalID: 693480294
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Cocogrunt 1_8
+      name: Explosion_4
       rect:
         serializedVersion: 2
         x: 0
@@ -279,14 +195,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2e8d99e7e930b6e4dba18bbeefcc2325
-      internalID: -1069053077
+      spriteID: fed38701147b571419c732d70dedbe0f
+      internalID: 7066815
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Cocogrunt 1_9
+      name: Explosion_5
       rect:
         serializedVersion: 2
         x: 64
@@ -300,14 +216,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3e26d330bed5d5c4797e34ab1e49e3b1
-      internalID: 2008194062
+      spriteID: e6a07a5151ff0a344ad3dbbcfc54c856
+      internalID: -1171768344
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Cocogrunt 1_10
+      name: Explosion_6
       rect:
         serializedVersion: 2
         x: 128
@@ -321,8 +237,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f18089ed696598c4aa600f75dac5e6f8
-      internalID: 1459788482
+      spriteID: 89f35b8d500ca564d8bd80a84a922a18
+      internalID: -1628668896
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Explosion_7
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 27c54cc260a7ff644bcfee7170c03a03
+      internalID: -1596438065
       vertices: []
       indices: 
       edges: []
@@ -338,17 +275,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Cocogrunt 1_0: 1506178070
-      Cocogrunt 1_1: 244460600
-      Cocogrunt 1_10: 1459788482
-      Cocogrunt 1_2: 1019165753
-      Cocogrunt 1_3: 918427536
-      Cocogrunt 1_4: -46449441
-      Cocogrunt 1_5: -227760936
-      Cocogrunt 1_6: -271090861
-      Cocogrunt 1_7: 693480294
-      Cocogrunt 1_8: -1069053077
-      Cocogrunt 1_9: 2008194062
+      Explosion_0: 786844929
+      Explosion_1: 767509925
+      Explosion_2: -1692185563
+      Explosion_3: -2140857422
+      Explosion_4: 7066815
+      Explosion_5: -1171768344
+      Explosion_6: -1628668896
+      Explosion_7: -1596438065
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
