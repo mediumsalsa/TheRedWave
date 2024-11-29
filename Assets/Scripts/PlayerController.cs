@@ -5,9 +5,12 @@ public class PlayerController : Entity
 {
     [Header("Stats")]
     public int maxHealth;
-    [SerializeField] private float movementSpeed = 1f, knockbackForce = 5f, knockbackDuration = 0.5f, freezeDuration = 0.1f;
+    [SerializeField] private float movementSpeed = 1f, freezeDuration = 0.1f;
     [SerializeField] private Color flashColor = Color.white;
     [SerializeField] private GameObject forwardHitbox, upHitbox, downHitbox;
+    [SerializeField] private float iframeDuration = 0.5f;
+    [SerializeField] private float knockForce = 3f;
+    [SerializeField] private float knockDuration = 0.1f;
 
     private int health;
     private bool isAttacking = false;
@@ -21,6 +24,9 @@ public class PlayerController : Entity
 
     private void Start()
     {
+        knockbackDuration = knockDuration;
+        knockbackForce = knockForce;
+
         Time.timeScale = 1f;
         healthSystem = GetComponent<HealthSystem>();
         rb = GetComponent<Rigidbody2D>();
@@ -48,6 +54,8 @@ public class PlayerController : Entity
 
     private void HandleMovement()
     {
+        if (isKnockedBack) return; // Disable movement during knockback
+
         float hInput = Input.GetAxisRaw("Horizontal"), vInput = Input.GetAxisRaw("Vertical");
         animator.SetFloat("xInput", hInput);
         animator.SetFloat("yInput", vInput);
@@ -98,21 +106,20 @@ public class PlayerController : Entity
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (!other.CompareTag("Hit") || other.transform.IsChildOf(transform)) return;
+
+        EntityStats attacker = other.GetComponent<EntityStats>();
+        if (attacker != null)
         {
-            if (!other.CompareTag("Hit") || other.transform.IsChildOf(transform)) return;
+            // Calculate knockback direction
+            Vector2 knockbackDir = (transform.position - other.transform.position).normalized;
 
-            EntityStats attacker = other.GetComponent<EntityStats>();
-            if (attacker != null && !isKnockedBack) // Check knockback state here
-            {
-                Debug.Log($"{gameObject.name} collided with {other.name}");
-                Vector3 enemyPosition = other.transform.position;
+            // Apply knockback and iframes
+            StartCoroutine(screenEffects.ApplyKnockback(rb, knockbackDir, this));
+            StartCoroutine(screenEffects.ApplyIframes(this, iframeDuration, flashColor));
 
-                // Trigger screen effects
-                screenEffects.TriggerHitEffects(gameObject, enemyPosition);
-
-                // Apply damage
-                healthSystem.TakeDamage(attacker.gameObject);
-            }
+            // Apply damage to health
+            healthSystem.TakeDamage(attacker.gameObject);
         }
     }
 

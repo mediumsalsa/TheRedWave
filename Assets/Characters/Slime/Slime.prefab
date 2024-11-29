@@ -315,7 +315,7 @@ MonoBehaviour:
   patrolAreaRadius: 1
   patrolSpeed: 0.2
   player: {fileID: 0}
-  detectionRange: 0.1
+  detectionRange: 1
   chasingSpeed: 0.3
   searchDuration: 6
   searchWanderRadius: 1

@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class Enemy : Entity
 {
-
     public enum EnemyState
     {
         Patrolling,
@@ -35,10 +34,10 @@ public class Enemy : Entity
     private float searchTimer;
 
     [Header("Hit Settings")]
-    [SerializeField] private float knockbackForce = 5f;
-    [SerializeField] private float knockbackDuration = 0.5f;
+    [SerializeField] private float knockForce = 3f;
+    [SerializeField] private float knockDuration = 0.1f;
     [SerializeField] private Color flashColor = Color.white;
-    [SerializeField] private float freezeDuration = 0.1f;
+    [SerializeField] private float iframeDuration = 0.5f;
     private Color originalColor;
 
     [Header("Vision Settings")]
@@ -47,50 +46,41 @@ public class Enemy : Entity
     private Rigidbody2D rb;
     private HealthSystem healthSystem;
     private SpriteRenderer spriteRenderer;
-    private Material material;
     private ScreenEffects screenEffects;
     private AIDestinationSetter aiDestSet;
     private AILerp aiLerp;
-    private Animator animator;
-    private Vector2 previousPosition;
-
-    private float xInput;
-    private float yInput;
-    private float speed;
 
     void Start()
     {
+        knockbackDuration = knockDuration;
+        knockbackForce = knockForce;
+
         healthSystem = GetComponent<HealthSystem>();
         health = maxHealth;
-        
-        if (healthSystem == null) Debug.Log("HealthSystem object not found!");
 
         screenEffects = FindObjectOfType<ScreenEffects>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        material = spriteRenderer.material;
-        animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         aiDestSet = GetComponent<AIDestinationSetter>();
         aiLerp = GetComponent<AILerp>();
 
+        originalColor = spriteRenderer.color;
         patrolAreaCenter = transform.position;
         currentState = EnemyState.Patrolling;
 
         aiLerp.speed = patrolSpeed;
         SetRandomPatrolPoint();
-
-        health = maxHealth;
-        originalColor = spriteRenderer.color;
-
-        previousPosition = transform.position;
     }
 
     void Update()
     {
+        if (isKnockedBack) return; // Prevent state updates during knockback
+
         health = healthSystem.health;
         if (health <= 0)
         {
             Destroy(gameObject);
+            return;
         }
 
         switch (currentState)
@@ -98,18 +88,15 @@ public class Enemy : Entity
             case EnemyState.Patrolling:
                 PatrollingUpdate();
                 break;
-
             case EnemyState.Chasing:
                 ChasingUpdate();
                 break;
-
             case EnemyState.Searching:
                 SearchingUpdate();
                 break;
         }
 
         HandleStateTransitions();
-        //UpdateAnimationParameters();
         HandleSpriteFlip();
     }
 
@@ -120,7 +107,6 @@ public class Enemy : Entity
             SetRandomPatrolPoint();
         }
     }
-
 
     void ChasingUpdate()
     {
@@ -155,15 +141,6 @@ public class Enemy : Entity
         aiLerp.speed = patrolSpeed;
     }
 
-    private bool HasLineOfSightToPlayer()
-    {
-        Vector2 directionToPlayer = (player.position - transform.position).normalized;
-        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
-
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, directionToPlayer, distanceToPlayer, obstacleLayer);
-        return hit.collider == null;
-    }
-
     void HandleStateTransitions()
     {
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
@@ -177,7 +154,6 @@ public class Enemy : Entity
                     currentState = EnemyState.Chasing;
                 }
                 break;
-
             case EnemyState.Chasing:
                 if (!canSeePlayer || distanceToPlayer > detectionRange)
                 {
@@ -186,7 +162,6 @@ public class Enemy : Entity
                     SetTemporaryTarget(lastKnownPosition);
                 }
                 break;
-
             case EnemyState.Searching:
                 if (distanceToPlayer <= detectionRange && canSeePlayer)
                 {
@@ -201,39 +176,37 @@ public class Enemy : Entity
         }
     }
 
-    void HandleSpriteFlip()
+    private bool HasLineOfSightToPlayer()
     {
-        Vector2 currentPosition = transform.position;
-        Vector2 direction = currentPosition - previousPosition;
+        Vector2 directionToPlayer = (player.position - transform.position).normalized;
+        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
 
-        if (direction.x != 0)
-        {
-            spriteRenderer.flipX = direction.x < 0;
-        }
-
-        previousPosition = currentPosition;
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, directionToPlayer, distanceToPlayer, obstacleLayer);
+        return hit.collider == null;
     }
 
+    void HandleSpriteFlip()
+    {
+        spriteRenderer.flipX = player.position.x < transform.position.x;
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (!other.CompareTag("Hit") || other.transform.IsChildOf(transform)) return;
+
+        EntityStats attacker = other.GetComponent<EntityStats>();
+        if (attacker != null)
         {
-            if (!other.CompareTag("Hit") || other.transform.IsChildOf(transform)) return;
+            // Calculate knockback direction
+            Vector2 knockbackDir = (transform.position - other.transform.position).normalized;
 
-            EntityStats attacker = other.GetComponent<EntityStats>();
-            if (attacker != null && !isKnockedBack) // Check knockback state here
-            {
-                Debug.Log($"{gameObject.name} collided with {other.name}");
-                Vector3 enemyPosition = other.transform.position;
+            // Apply knockback and iframes
+            isKnockedBack = true;
+            StartCoroutine(screenEffects.ApplyKnockback(rb, knockbackDir, this));
+            StartCoroutine(screenEffects.ApplyIframes(this, iframeDuration, flashColor));
 
-                // Trigger screen effects
-                screenEffects.TriggerHitEffects(gameObject, enemyPosition);
-
-                // Apply damage
-                healthSystem.TakeDamage(attacker.gameObject);
-            }
+            // Apply damage to health
+            healthSystem.TakeDamage(attacker.gameObject);
         }
     }
-
-
 }

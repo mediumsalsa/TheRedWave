@@ -294,7 +294,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0
+  m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -320,15 +320,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isKnockedBack: 0
-  maxHealth: 12000
-  movementSpeed: 1
-  knockbackForce: 1
   knockbackDuration: 0.1
+  knockbackForce: 1
+  maxHealth: 12000
+  movementSpeed: 0.6
   freezeDuration: 0.1
   flashColor: {r: 1, g: 0, b: 0, a: 1}
   forwardHitbox: {fileID: 827358885}
   upHitbox: {fileID: 2022204014}
   downHitbox: {fileID: 1155863471}
+  iframeDuration: 0.5
+  knockForce: 3
+  knockDuration: 0.1
 --- !u!212 &345482722
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -424,6 +427,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isKnockedBack: 0
+  knockbackDuration: 3
+  knockbackForce: 0
   damage: 25
   maxHealth: 12000
 --- !u!1 &427504036
@@ -627,6 +632,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isKnockedBack: 0
+  knockbackDuration: 3
+  knockbackForce: 0
   damage: 25
   maxHealth: 200
 --- !u!50 &569585109
@@ -709,7 +716,7 @@ MonoBehaviour:
   iterations: 0
   strength: 0
   uniformLength: 1
-  maxSegmentLength: 0.4
+  maxSegmentLength: 2
   bezierTangentLength: 0.4
   offset: 0.2
   factor: 0.1
@@ -866,7 +873,7 @@ Transform:
   m_GameObject: {fileID: 569585106}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.092, y: -1.953, z: 0}
+  m_LocalPosition: {x: -0.481, y: -1.691, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -885,19 +892,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isKnockedBack: 0
+  knockbackDuration: 0.01
+  knockbackForce: 1
   maxHealth: 200
   damage: 25
-  patrolAreaRadius: 0.1
+  patrolAreaRadius: 1
   patrolSpeed: 0.2
   player: {fileID: 345482723}
   detectionRange: 1
   chasingSpeed: 0.3
-  searchDuration: 0
+  searchDuration: 10
   searchWanderRadius: 1
-  knockbackForce: 5
-  knockbackDuration: 0.1
+  knockForce: 3
+  knockDuration: 0.1
   flashColor: {r: 1, g: 1, b: 1, a: 1}
-  freezeDuration: 0.1
+  iframeDuration: 0.5
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -1163,6 +1172,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isKnockedBack: 0
+  knockbackDuration: 3
+  knockbackForce: 0
   damage: 25
   maxHealth: 1000
 --- !u!50 &827358890
@@ -1350,6 +1361,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isKnockedBack: 0
+  knockbackDuration: 3
+  knockbackForce: 0
   damage: 25
   maxHealth: 1000
 --- !u!50 &1155863476
@@ -40454,6 +40467,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 345482723}
+    - target: {fileID: 4256407263635258921, guid: 8b97d0194a581564cbdc742738bc7607, type: 3}
+      propertyPath: detectionRange
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5370632033724165702, guid: 8b97d0194a581564cbdc742738bc7607, type: 3}
       propertyPath: m_Name
       value: Slime (1)
@@ -74596,6 +74613,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isKnockedBack: 0
+  knockbackDuration: 3
+  knockbackForce: 0
   damage: 25
   maxHealth: 1000
 --- !u!50 &2022204019
