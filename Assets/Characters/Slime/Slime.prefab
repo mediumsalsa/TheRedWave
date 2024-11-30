@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 6859659653264665429}
   - component: {fileID: 3022996933601353888}
   - component: {fileID: 3627136416673065910}
-  - component: {fileID: 4256407263635258921}
+  - component: {fileID: 4988677194895075025}
   m_Layer: 7
   m_Name: Slime
   m_TagString: Hit
@@ -283,6 +283,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isKnockedBack: 0
+  knockbackDuration: 0.1
+  knockbackForce: 2
+  iFrameDuration: 2
+  areIFrames: 0
   damage: 20
   maxHealth: 100
 --- !u!114 &3627136416673065910
@@ -297,7 +301,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c152e5d1f27fa4648ad55bf4033b2fcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4256407263635258921
+--- !u!114 &4988677194895075025
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -306,23 +310,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 5370632033724165702}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6423c6c41b37cba44b868fa5911cecc1, type: 3}
+  m_Script: {fileID: 11500000, guid: ad18fcd438274d14581937b9cf8fc709, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isKnockedBack: 0
+  knockbackDuration: 0.1
+  knockbackForce: 2
+  iFrameDuration: 2
+  areIFrames: 0
   maxHealth: 100
   damage: 20
   patrolAreaRadius: 1
-  patrolSpeed: 0.2
-  player: {fileID: 0}
+  patrolSpeed: 0.3
+  target: {fileID: 0}
   detectionRange: 1
   chasingSpeed: 0.3
   searchDuration: 6
   searchWanderRadius: 1
-  knockbackForce: 5
-  knockbackDuration: 0.1
-  flashColor: {r: 1, g: 1, b: 1, a: 1}
-  freezeDuration: 0.1
+  combatStateRange: 0.5
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 64
+  windUpDuration: 0.5
+  dashSpeed: 2
+  dashDuration: 0.25
+  recoverDuration: 0.5

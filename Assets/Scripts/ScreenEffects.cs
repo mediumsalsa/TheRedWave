@@ -23,14 +23,11 @@ public class ScreenEffects : MonoBehaviour
             yield break;
         }
 
-        // Normalize direction and apply knockback force
         direction = direction.normalized;
-
-        // Disable AI movement for enemies
         AILerp aiLerp = entity.GetComponent<AILerp>();
+
         if (aiLerp != null) aiLerp.enabled = false;
 
-        // Disable player/enemy-specific movement logic
         entity.isKnockedBack = true;
 
         // Apply knockback using AddForce (Impulse)
@@ -40,7 +37,6 @@ public class ScreenEffects : MonoBehaviour
             Debug.Log($"Applied knockback force: {direction * entity.knockbackForce}");
         }
 
-        // Wait for knockback duration
         yield return new WaitForSeconds(entity.knockbackDuration);
 
         // Stop movement after knockback
@@ -49,52 +45,31 @@ public class ScreenEffects : MonoBehaviour
             rb.velocity = Vector2.zero;
             Debug.Log("Knockback ended. Velocity reset.");
         }
-
-        // Re-enable AI movement for enemies
         if (aiLerp != null) aiLerp.enabled = true;
 
-        // Re-enable player/enemy-specific movement
         entity.isKnockedBack = false;
     }
 
-    public IEnumerator ApplyIframes(Entity targetEntity, float iframeDuration, Color flashColor)
+    public IEnumerator ApplyIframes(Entity targetEntity, float iframeDuration, float FlashDuration)
     {
         if (targetEntity == null) yield break;
+
+        targetEntity.areIFrames = true;
 
         SpriteRenderer renderer = targetEntity.GetComponent<SpriteRenderer>();
         if (renderer != null)
         {
-            Color originalColor = renderer.color;
+            Material material = renderer.material;
 
-            for (float elapsed = 0; elapsed < iframeDuration; elapsed += 0.1f)
+            if (material.HasProperty("_FlashAmount"))
             {
-                renderer.color = flashColor;
-                yield return new WaitForSeconds(0.05f);
-                renderer.color = originalColor;
-                yield return new WaitForSeconds(0.05f);
+                material.SetFloat("_FlashAmount", 1);
+                yield return new WaitForSeconds(FlashDuration);
+                material.SetFloat("_FlashAmount", 0);
             }
-
-            renderer.color = originalColor; // Ensure original color is restored
         }
+        targetEntity.areIFrames = false;
     }
-
-    //private IEnumerator HitFlash(GameObject target)
-    //{
-    //    SpriteRenderer renderer = target.GetComponent<SpriteRenderer>();
-    //    if (renderer != null)
-    //    {
-    //        Material material = renderer.material;
-
-    //        // Flash effect using _FlashAmount shader property
-    //        if (material.HasProperty("_FlashAmount"))
-    //        {
-    //            material.SetFloat("_FlashAmount", 1);
-    //            yield return new WaitForSeconds(0.05f);
-    //            material.SetFloat("_FlashAmount", 0);
-    //        }
-    //    }
-    //}
-
 
     public void FreezeFrame(float duration = -1)
     {

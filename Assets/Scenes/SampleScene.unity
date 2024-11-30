@@ -178,6 +178,14 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 345482723}
+    - target: {fileID: 4988677194895075025, guid: 8b97d0194a581564cbdc742738bc7607, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 345482723}
+    - target: {fileID: 4988677194895075025, guid: 8b97d0194a581564cbdc742738bc7607, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 345482723}
     - target: {fileID: 5370632033724165702, guid: 8b97d0194a581564cbdc742738bc7607, type: 3}
       propertyPath: m_Name
       value: Slime (4)
@@ -322,6 +330,8 @@ MonoBehaviour:
   isKnockedBack: 0
   knockbackDuration: 0.1
   knockbackForce: 1
+  iFrameDuration: 2
+  areIFrames: 0
   maxHealth: 12000
   movementSpeed: 0.6
   freezeDuration: 0.1
@@ -329,9 +339,10 @@ MonoBehaviour:
   forwardHitbox: {fileID: 827358885}
   upHitbox: {fileID: 2022204014}
   downHitbox: {fileID: 1155863471}
-  iframeDuration: 0.5
+  iframeDur: 0.5
   knockForce: 3
   knockDuration: 0.1
+  flashDuration: 0.3
 --- !u!212 &345482722
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -429,6 +440,8 @@ MonoBehaviour:
   isKnockedBack: 0
   knockbackDuration: 3
   knockbackForce: 0
+  iFrameDuration: 2
+  areIFrames: 0
   damage: 25
   maxHealth: 12000
 --- !u!1 &427504036
@@ -634,6 +647,8 @@ MonoBehaviour:
   isKnockedBack: 0
   knockbackDuration: 3
   knockbackForce: 0
+  iFrameDuration: 2
+  areIFrames: 0
   damage: 25
   maxHealth: 200
 --- !u!50 &569585109
@@ -888,25 +903,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 569585106}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6423c6c41b37cba44b868fa5911cecc1, type: 3}
+  m_Script: {fileID: 11500000, guid: 4ea62d7b60fd74d40bbfcfbf85e8819d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isKnockedBack: 0
-  knockbackDuration: 0.01
-  knockbackForce: 1
+  knockbackDuration: 0.1
+  knockbackForce: 2
+  iFrameDuration: 2
+  areIFrames: 0
   maxHealth: 200
   damage: 25
   patrolAreaRadius: 1
-  patrolSpeed: 0.2
-  player: {fileID: 345482723}
+  patrolSpeed: 0.3
+  target: {fileID: 0}
   detectionRange: 1
-  chasingSpeed: 0.3
-  searchDuration: 10
+  chasingSpeed: 0.4
+  searchDuration: 12
   searchWanderRadius: 1
-  knockForce: 3
-  knockDuration: 0.1
-  flashColor: {r: 1, g: 1, b: 1, a: 1}
-  iframeDuration: 0.5
+  combatStateRange: 1
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -1011,6 +1025,14 @@ PrefabInstance:
       objectReference: {fileID: 345482723}
     - target: {fileID: 4256407263635258921, guid: 8b97d0194a581564cbdc742738bc7607, type: 3}
       propertyPath: player
+      value: 
+      objectReference: {fileID: 345482723}
+    - target: {fileID: 4988677194895075025, guid: 8b97d0194a581564cbdc742738bc7607, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 345482723}
+    - target: {fileID: 4988677194895075025, guid: 8b97d0194a581564cbdc742738bc7607, type: 3}
+      propertyPath: target
       value: 
       objectReference: {fileID: 345482723}
     - target: {fileID: 5370632033724165702, guid: 8b97d0194a581564cbdc742738bc7607, type: 3}
@@ -1174,6 +1196,8 @@ MonoBehaviour:
   isKnockedBack: 0
   knockbackDuration: 3
   knockbackForce: 0
+  iFrameDuration: 2
+  areIFrames: 0
   damage: 25
   maxHealth: 1000
 --- !u!50 &827358890
@@ -1363,6 +1387,8 @@ MonoBehaviour:
   isKnockedBack: 0
   knockbackDuration: 3
   knockbackForce: 0
+  iFrameDuration: 2
+  areIFrames: 0
   damage: 25
   maxHealth: 1000
 --- !u!50 &1155863476
@@ -40398,6 +40424,14 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 345482723}
+    - target: {fileID: 4988677194895075025, guid: 8b97d0194a581564cbdc742738bc7607, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 345482723}
+    - target: {fileID: 4988677194895075025, guid: 8b97d0194a581564cbdc742738bc7607, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 345482723}
     - target: {fileID: 5370632033724165702, guid: 8b97d0194a581564cbdc742738bc7607, type: 3}
       propertyPath: m_Name
       value: Slime (2)
@@ -40471,6 +40505,18 @@ PrefabInstance:
       propertyPath: detectionRange
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4988677194895075025, guid: 8b97d0194a581564cbdc742738bc7607, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 345482723}
+    - target: {fileID: 4988677194895075025, guid: 8b97d0194a581564cbdc742738bc7607, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 345482723}
+    - target: {fileID: 4988677194895075025, guid: 8b97d0194a581564cbdc742738bc7607, type: 3}
+      propertyPath: windUpDuration
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 5370632033724165702, guid: 8b97d0194a581564cbdc742738bc7607, type: 3}
       propertyPath: m_Name
       value: Slime (1)
@@ -40543,6 +40589,14 @@ PrefabInstance:
       objectReference: {fileID: 345482723}
     - target: {fileID: 4256407263635258921, guid: 8b97d0194a581564cbdc742738bc7607, type: 3}
       propertyPath: player
+      value: 
+      objectReference: {fileID: 345482723}
+    - target: {fileID: 4988677194895075025, guid: 8b97d0194a581564cbdc742738bc7607, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 345482723}
+    - target: {fileID: 4988677194895075025, guid: 8b97d0194a581564cbdc742738bc7607, type: 3}
+      propertyPath: target
       value: 
       objectReference: {fileID: 345482723}
     - target: {fileID: 5370632033724165702, guid: 8b97d0194a581564cbdc742738bc7607, type: 3}
@@ -74615,6 +74669,8 @@ MonoBehaviour:
   isKnockedBack: 0
   knockbackDuration: 3
   knockbackForce: 0
+  iFrameDuration: 2
+  areIFrames: 0
   damage: 25
   maxHealth: 1000
 --- !u!50 &2022204019

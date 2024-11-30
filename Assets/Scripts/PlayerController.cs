@@ -8,9 +8,10 @@ public class PlayerController : Entity
     [SerializeField] private float movementSpeed = 1f, freezeDuration = 0.1f;
     [SerializeField] private Color flashColor = Color.white;
     [SerializeField] private GameObject forwardHitbox, upHitbox, downHitbox;
-    [SerializeField] private float iframeDuration = 0.5f;
+    [SerializeField] private float iframeDur = 0.5f;
     [SerializeField] private float knockForce = 3f;
     [SerializeField] private float knockDuration = 0.1f;
+    [SerializeField] private float flashDuration = 0.3f;
 
     private int health;
     private bool isAttacking = false;
@@ -26,6 +27,7 @@ public class PlayerController : Entity
     {
         knockbackDuration = knockDuration;
         knockbackForce = knockForce;
+        iFrameDuration = iframeDur;
 
         Time.timeScale = 1f;
         healthSystem = GetComponent<HealthSystem>();
@@ -116,7 +118,7 @@ public class PlayerController : Entity
 
             // Apply knockback and iframes
             StartCoroutine(screenEffects.ApplyKnockback(rb, knockbackDir, this));
-            StartCoroutine(screenEffects.ApplyIframes(this, iframeDuration, flashColor));
+            StartCoroutine(screenEffects.ApplyIframes(this, iframeDur, flashDuration));
 
             // Apply damage to health
             healthSystem.TakeDamage(attacker.gameObject);
