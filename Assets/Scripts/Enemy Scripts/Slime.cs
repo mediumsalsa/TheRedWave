@@ -17,11 +17,13 @@ public class Slime : Enemy
     private float stateTimer;
     private Vector2 dashDirection;
     private Rigidbody2D rb;
+    private Animator animator; // Reference to Animator
 
     protected override void Start()
     {
         base.Start();
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>(); // Initialize Animator
     }
 
     protected override void HandleOnHit(Collider2D other)
@@ -43,7 +45,10 @@ public class Slime : Enemy
         switch (combatState)
         {
             case SlimeCombatState.Idle:
-                StartWindUp();
+                if (currentState == EnemyState.Combat)
+                {
+                    StartWindUp();
+                }
                 break;
             case SlimeCombatState.WindUp:
                 StopMovement();
@@ -55,6 +60,7 @@ public class Slime : Enemy
                 break;
             case SlimeCombatState.Recover:
                 StopMovement();
+                animator.Play("Idle");
                 if (stateTimer <= 0) combatState = SlimeCombatState.Idle;
                 break;
         }
@@ -65,6 +71,10 @@ public class Slime : Enemy
         combatState = SlimeCombatState.WindUp;
         stateTimer = windUpDuration;
         StopMovement();
+
+        if (animator != null)
+            animator.Play("WindUp"); // Play the wind-up animation
+
         Debug.Log("Slime is winding up!");
     }
 
@@ -77,18 +87,27 @@ public class Slime : Enemy
             dashDirection = (target.position - transform.position).normalized;
 
         aiLerp.enabled = false;
+
+        if (animator != null)
+            animator.Play("JumpAttack"); // Play the jump attack animation
+
         Debug.Log("Slime is dashing!");
     }
 
     private void PerformDash()
     {
         rb.velocity = dashDirection * dashSpeed;
+
+        // Stop animation on the last frame when dash is done
+        if (stateTimer <= 0 && animator != null)
+            animator.Play("JumpAttack"); // Freeze animation at the last frame
     }
 
     private void StartRecover()
     {
         combatState = SlimeCombatState.Recover;
         stateTimer = recoverDuration;
+        animator.Play("Idle");
         StopMovement();
         Debug.Log("Slime is recovering!");
     }
@@ -113,6 +132,7 @@ public class Slime : Enemy
         combatState = SlimeCombatState.Idle;
         aiLerp.enabled = true;
         currentState = EnemyState.Chasing;
+        animator.Play("Idle");
         Debug.Log("Target left range, exiting combat.");
     }
 

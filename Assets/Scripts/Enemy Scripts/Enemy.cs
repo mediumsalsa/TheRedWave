@@ -36,6 +36,7 @@ public abstract class Enemy : Entity
     protected AIDestinationSetter aiDestSet;
     protected AILerp aiLerp;
     protected ScreenEffects screenEffects;
+    private SpriteRenderer spriteRenderer;
 
     protected virtual void Start()
     {
@@ -45,6 +46,7 @@ public abstract class Enemy : Entity
         aiDestSet = GetComponent<AIDestinationSetter>();
         aiLerp = GetComponent<AILerp>();
         screenEffects = FindObjectOfType<ScreenEffects>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
 
         health = maxHealth;
         aiLerp.speed = patrolSpeed;
@@ -56,6 +58,7 @@ public abstract class Enemy : Entity
         if (isKnockedBack) return;
 
         HandleStateTransitions();
+        HandleSpriteFlip();
 
         switch (currentState)
         {
@@ -84,6 +87,17 @@ public abstract class Enemy : Entity
         }
 
         HandleOnHit(other);
+    }
+
+    protected void HandleSpriteFlip()
+    {
+        // Use movement direction or velocity for sprite flipping
+        Vector2 velocity = aiLerp.velocity; // AILerp's current velocity
+
+        if (velocity.x > 0)
+            spriteRenderer.flipX = false; // Facing right
+        else if (velocity.x < 0)
+            spriteRenderer.flipX = true; // Facing left
     }
 
     protected virtual void PatrollingUpdate()
