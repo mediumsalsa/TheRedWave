@@ -911,11 +911,12 @@ MonoBehaviour:
   knockbackForce: 2
   iFrameDuration: 2
   areIFrames: 0
+  isDead: 0
   maxHealth: 200
   damage: 25
   patrolAreaRadius: 1
   patrolSpeed: 0.3
-  target: {fileID: 0}
+  target: {fileID: 345482723}
   detectionRange: 1
   chasingSpeed: 0.4
   searchDuration: 12

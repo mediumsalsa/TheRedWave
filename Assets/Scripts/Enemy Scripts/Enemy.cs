@@ -5,6 +5,8 @@ public abstract class Enemy : Entity
 {
     public enum EnemyState { Patrolling, Chasing, Searching, Combat }
 
+    public bool isDead = false;
+
     [Header("Stat Settings")]
     public int maxHealth = 100;
     public int damage = 20;
@@ -55,6 +57,8 @@ public abstract class Enemy : Entity
 
     protected virtual void Update()
     {
+        if (isDead) return;
+
         if (isKnockedBack) return;
 
         HandleStateTransitions();
@@ -74,19 +78,22 @@ public abstract class Enemy : Entity
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (!other.CompareTag("Hit") || other.transform.IsChildOf(transform)) return;
-
-        EntityStats attacker = other.GetComponent<EntityStats>();
-        if (attacker != null)
+        if (isDead == false)
         {
-            Vector2 knockbackDir = (transform.position - other.transform.position).normalized;
-            isKnockedBack = true;
-            StartCoroutine(screenEffects.ApplyKnockback(GetComponent<Rigidbody2D>(), knockbackDir, this));
-            StartCoroutine(screenEffects.ApplyIframes(this, iFrameDuration, 0.3f));
-            health -= attacker.damage;
-        }
+            if (!other.CompareTag("Hit") || other.transform.IsChildOf(transform)) return;
 
-        HandleOnHit(other);
+            EntityStats attacker = other.GetComponent<EntityStats>();
+            if (attacker != null)
+            {
+                Vector2 knockbackDir = (transform.position - other.transform.position).normalized;
+                isKnockedBack = true;
+                StartCoroutine(screenEffects.ApplyKnockback(GetComponent<Rigidbody2D>(), knockbackDir, this));
+                StartCoroutine(screenEffects.ApplyIframes(this, iFrameDuration, 0.3f));
+                health -= attacker.damage;
+            }
+
+            HandleOnHit(other);
+        }
     }
 
     protected void HandleSpriteFlip()
@@ -129,6 +136,7 @@ public abstract class Enemy : Entity
 
     protected virtual void HandleStateTransitions()
     {
+        if (isDead) return;
         float distanceToPlayer = Vector3.Distance(transform.position, target.position);
         bool canSeePlayer = HasLineOfSightToPlayer();
 

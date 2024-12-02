@@ -28,12 +28,25 @@ public class Slime : Enemy
 
     protected override void HandleOnHit(Collider2D other)
     {
-        if (health <= 0) Destroy(gameObject);
+        if (health <= 0) 
+        {
+            StopMovement();
+            isDead = true;
+            animator.Play("Die");
+        }
+
         Debug.Log("Slime got hit!");
+    }
+
+    private void OnDeath()
+    {
+        Destroy(gameObject);
+        Debug.Log("Slime died!");
     }
 
     protected override void CombatUpdate()
     {
+        if (isDead) return;
         if (!IsTargetInRange()) // Check if the target is valid
         {
             ExitCombat();
