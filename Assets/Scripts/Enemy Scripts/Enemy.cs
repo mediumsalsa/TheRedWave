@@ -18,9 +18,9 @@ public abstract class Enemy : Entity
     protected Vector2 patrolAreaCenter;
 
     [Header("Chasing Settings")]
-    public Transform target;
     public float detectionRange = 5f;
     public float chasingSpeed = 4f;
+    public Transform target;
 
     [Header("Searching Settings")]
     public float searchDuration = 2f;
@@ -42,14 +42,28 @@ public abstract class Enemy : Entity
 
     protected virtual void Start()
     {
+        // Set patrol area center and initial state
         patrolAreaCenter = transform.position;
         currentState = EnemyState.Patrolling;
 
+        // Get required components
         aiDestSet = GetComponent<AIDestinationSetter>();
         aiLerp = GetComponent<AILerp>();
         screenEffects = FindObjectOfType<ScreenEffects>();
         spriteRenderer = GetComponent<SpriteRenderer>();
 
+        // Automatically find the PlayerController and assign its Transform as the target
+        PlayerController player = FindObjectOfType<PlayerController>();
+        if (player != null)
+        {
+            target = player.transform;
+        }
+        else
+        {
+            Debug.LogError("PlayerController not found in the scene!");
+        }
+
+        // Initialize other settings
         health = maxHealth;
         aiLerp.speed = patrolSpeed;
         SetRandomPatrolPoint();

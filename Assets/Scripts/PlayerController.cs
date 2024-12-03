@@ -23,6 +23,11 @@ public class PlayerController : Entity
     private SpriteRenderer spriteRenderer;
     private Material material;
 
+    // Define hitbox offsets
+    private Vector3 forwardHitboxOffset = new Vector3(0.1652f, -0.0256f, 0f);
+    private Vector3 upHitboxOffset = new Vector3(0f, 0.1085f, 0f);
+    private Vector3 downHitboxOffset = new Vector3(0f, -0.1816f, 0f);
+
     private void Start()
     {
         knockbackDuration = knockDuration;
@@ -56,7 +61,7 @@ public class PlayerController : Entity
 
     private void HandleMovement()
     {
-        if (isKnockedBack) return; // Disable movement during knockback
+        if (isKnockedBack) return;
 
         float hInput = Input.GetAxisRaw("Horizontal"), vInput = Input.GetAxisRaw("Vertical");
         animator.SetFloat("xInput", hInput);
@@ -80,17 +85,27 @@ public class PlayerController : Entity
         transform.localScale = new Vector3(mousePos.x < transform.position.x ? -1 : 1, 1, 1);
 
         if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
-            ActivateHitbox(forwardHitbox);
+            ActivateHitbox(forwardHitbox, forwardHitboxOffset);
         else
-            ActivateHitbox(direction.y > 0 ? upHitbox : downHitbox);
+            ActivateHitbox(direction.y > 0 ? upHitbox : downHitbox,
+                direction.y > 0 ? upHitboxOffset : downHitboxOffset);
 
         animator.Play("Attack");
     }
 
-    private void ActivateHitbox(GameObject hitbox)
+    private void ActivateHitbox(GameObject hitbox, Vector3 offset)
     {
         DeactivateHitboxes();
-        if (hitbox != null) hitbox.SetActive(true);
+
+        if (hitbox != null)
+        {
+            // Reset the hitbox's parent and position
+            if (hitbox.transform.parent != transform)
+                hitbox.transform.SetParent(transform);
+
+            hitbox.transform.localPosition = offset; // Apply the correct offset
+            hitbox.SetActive(true);
+        }
     }
 
     private void DeactivateHitboxes()
