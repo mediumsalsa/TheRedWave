@@ -79,6 +79,12 @@ public class Slime : Enemy
         }
     }
 
+
+    private void DoDash()
+    {
+
+    }
+
     private void StartWindUp()
     {
         combatState = SlimeCombatState.WindUp;
