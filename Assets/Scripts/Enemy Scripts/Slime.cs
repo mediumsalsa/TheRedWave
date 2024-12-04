@@ -28,7 +28,7 @@ public class Slime : Enemy
 
     protected override void HandleOnHit(Collider2D other)
     {
-        if (health <= 0) 
+        if (health <= 0)
         {
             StopMovement();
             isDead = true;
@@ -77,12 +77,6 @@ public class Slime : Enemy
                 if (stateTimer <= 0) combatState = SlimeCombatState.Idle;
                 break;
         }
-    }
-
-
-    private void DoDash()
-    {
-
     }
 
     private void StartWindUp()
@@ -155,14 +149,6 @@ public class Slime : Enemy
         Debug.Log("Target left range, exiting combat.");
     }
 
-    private bool HasLineOfSightToTarget()
-    {
-        if (target == null) return false;
 
-        Vector2 directionToTarget = (target.position - transform.position).normalized;
-        float distanceToTarget = Vector2.Distance(transform.position, target.position);
-
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, directionToTarget, distanceToTarget, obstacleLayer);
-        return hit.collider == null; // No obstacle in the way
-    }
 }
+

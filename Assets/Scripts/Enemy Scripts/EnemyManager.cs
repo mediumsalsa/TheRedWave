@@ -31,7 +31,6 @@ public class EnemyManager : MonoBehaviour
     {
         // Check if all enemies are defeated
         activeEnemies.RemoveAll(enemy => enemy == null); // Clean up destroyed enemies
-        Debug.Log($"Active Enemies: {activeEnemies.Count}, Enemies to Spawn: {enemiesToSpawn}");
         if (activeEnemies.Count == 0)
         {
             NextWave();
@@ -55,7 +54,7 @@ public class EnemyManager : MonoBehaviour
             yield return new WaitForSeconds(spawnDelay);
 
             // Spawn on bottom strip
-            SpawnEnemyAtRandomPoint(slimePrefab, bottomSpawnPoints);
+            SpawnEnemyAtRandomPoint(cocogruntPrefab, bottomSpawnPoints);
             enemiesToSpawn--; // Decrement after spawning
             yield return new WaitForSeconds(spawnDelay);
         }

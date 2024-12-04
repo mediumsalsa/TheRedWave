@@ -151,25 +151,25 @@ public abstract class Enemy : Entity
     protected virtual void HandleStateTransitions()
     {
         if (isDead) return;
-        float distanceToPlayer = Vector3.Distance(transform.position, target.position);
-        bool canSeePlayer = HasLineOfSightToPlayer();
+        float distanceToTarget = Vector3.Distance(transform.position, target.position);
+        bool canSeeTarget = HasLineOfSightToTarget();
 
         switch (currentState)
         {
             case EnemyState.Patrolling:
-                if (distanceToPlayer <= detectionRange && canSeePlayer)
+                if (distanceToTarget <= detectionRange && canSeeTarget)
                     currentState = EnemyState.Chasing;
                 break;
 
             case EnemyState.Chasing:
-                if (!canSeePlayer || distanceToPlayer > detectionRange)
+                if (!canSeeTarget || distanceToTarget > detectionRange)
                 {
                     aiLerp.enabled = true;
                     currentState = EnemyState.Searching;
                     searchTimer = searchDuration;
                     SetTemporaryTarget(lastKnownPosition);
                 }
-                else if (distanceToPlayer <= combatStateRange)
+                else if (distanceToTarget <= combatStateRange)
                 {
                     aiLerp.enabled = true;
                     currentState = EnemyState.Combat;
@@ -177,7 +177,7 @@ public abstract class Enemy : Entity
                 break;
 
             case EnemyState.Searching:
-                if (distanceToPlayer <= detectionRange && canSeePlayer)
+                if (distanceToTarget <= detectionRange && canSeeTarget)
                     currentState = EnemyState.Chasing;
                 else if (searchTimer <= 0)
                 {
@@ -188,7 +188,7 @@ public abstract class Enemy : Entity
                 break;
 
             case EnemyState.Combat:
-                if (!canSeePlayer || distanceToPlayer > detectionRange)
+                if (!canSeeTarget || distanceToTarget > detectionRange)
                 {
                     aiLerp.enabled = true;
                     currentState = EnemyState.Searching;
@@ -198,16 +198,14 @@ public abstract class Enemy : Entity
                 break;
         }
 
-        // Debug logs for testing
-        Debug.Log($"Current State: {currentState}");
     }
 
-    protected bool HasLineOfSightToPlayer()
+    protected bool HasLineOfSightToTarget()
     {
-        Vector2 directionToPlayer = (target.position - transform.position).normalized;
-        float distanceToPlayer = Vector2.Distance(transform.position, target.position);
+        Vector2 directionToTarget = (target.position - transform.position).normalized;
+        float distanceToTarget = Vector2.Distance(transform.position, target.position);
 
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, directionToPlayer, distanceToPlayer, obstacleLayer);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, directionToTarget, distanceToTarget, obstacleLayer);
         return hit.collider == null;
     }
 
