@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 47162758089427457}
   - component: {fileID: 380225279078768321}
   - component: {fileID: 5401069342686766318}
+  - component: {fileID: 4879706471885522667}
   m_Layer: 7
   m_Name: Cocogrunt
   m_TagString: Hit
@@ -332,6 +333,8 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 64
+  knockDur: 0.08
+  knockForce: 1
   explosionPrefab: {fileID: 5178941020980427799, guid: da30b7e1e327eb248a6fcdc753f4f0cf, type: 3}
   windUpDuration: 0.8
   dashSpeed: 1.5
@@ -342,3 +345,19 @@ MonoBehaviour:
   rangedAttackRange: 2
   strafeSpeed: 0.5
   strafeDuration: 2
+--- !u!114 &4879706471885522667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5887411190400877240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 330ca3bf4a9b2e7489012416b7c26da3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shadowSprite: {fileID: 21300000, guid: 0d950d415ea2703428ece7fa22c61385, type: 3}
+  shadowOffset: {x: 0, y: -0.075}
+  shadowColor: {r: 0, g: 0, b: 0, a: 0.88235295}
+  shadowScale: 1

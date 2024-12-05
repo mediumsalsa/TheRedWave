@@ -7,6 +7,10 @@ public class Cocogrunt : Enemy
     private enum CombatState { Idle, WindUp, Dashing, Recover, RangedAttack, Strafing }
     private CombatState combatState = CombatState.Idle;
 
+    [Header("Hit Settings")]
+    public float knockDur;
+    public float knockForce;
+
     [Header("Dash Attack Settings")]
     public GameObject explosionPrefab;
     public float windUpDuration = 0.5f;
@@ -32,6 +36,10 @@ public class Cocogrunt : Enemy
     protected override void Start()
     {
         base.Start();
+
+        knockbackDuration = knockDur;
+        knockbackForce = knockForce;
+
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         rangedAttackTimer = 0f;
