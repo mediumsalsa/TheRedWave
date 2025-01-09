@@ -251,20 +251,3 @@ public class Cocogrunt : Enemy
 }
 
 
-
-
-//protected override void HandleOnHit(Collider2D other)
-//{
-//    if (health <= 0)
-//    {
-//        StopMovement();
-//        isDead = true;
-//        //animator.Play("Die");
-//    }
-//}
-
-//private void OnDeath()
-//{
-//    Explode();
-//    Destroy(gameObject);
-//}
